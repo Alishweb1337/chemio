@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chemio — Умная платформа для точных наук</title>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   CHEMIO — PREMIUM REDESIGN
+   ══════════════════════════════════════ */
+
+/* THEMES */
+[data-theme="dark"]{
+  --bg:#07090F;
+  --card:#0E1117;
+  --card2:#13171F;
+  --card3:#181D28;
+  --brd:rgba(255,255,255,.06);
+  --brd2:rgba(255,255,255,.1);
+  --tx:#F1F5F9;
+  --mt:#64748B;
+  --dim:#374151;
+  --shadow:rgba(0,0,0,.6);
+  --glow-c:rgba(16,185,129,.12);
+  --glow-b:rgba(139,92,246,.12);
+  --sb-bg:#0A0D14;
+}
+[data-theme="light"]{
+  --bg:#F5F7FF;
+  --card:#FFFFFF;
+  --card2:#F8FAFF;
+  --card3:#EEF2FF;
+  --brd:rgba(0,0,0,.07);
+  --brd2:rgba(0,0,0,.12);
+  --tx:#0F172A;
+  --mt:#64748B;
+  --dim:#94A3B8;
+  --shadow:rgba(15,23,42,.08);
+  --glow-c:rgba(16,185,129,.08);
+  --glow-b:rgba(139,92,246,.08);
+  --sb-bg:#FFFFFF;
+}
+
+:root{
+  --chem:#10B981;
+  --chem-d:rgba(16,185,129,.1);
+  --chem-g:rgba(16,185,129,.25);
+  --bio:#8B5CF6;
+  --bio-d:rgba(139,92,246,.1);
+  --bio-g:rgba(139,92,246,.25);
+  --gold:#F59E0B;
+  --gold-d:rgba(245,158,11,.1);
+  --blue:#3B82F6;
+  --blue-d:rgba(59,130,246,.1);
+  --red:#F43F5E;
+  --red-d:rgba(244,63,94,.1);
+  --pink:#EC4899;
+  --green:#22C55E;
+  --r:16px;
+  --r-sm:10px;
+  --r-lg:20px;
+  --font:'Onest',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+
+/* BASE */
+*{box-sizing:border-box;margin:0;padding:0}
+*{transition:background-color .18s,border-color .18s,color .12s,box-shadow .18s,opacity .15s}
+html,body{background:var(--bg);color:var(--tx);font-family:var(--font);height:100%;overflow:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:2px}
+::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:9px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* LAYOUT */
+#app{display:grid;grid-template-columns:228px 1fr 310px;height:100vh;overflow:hidden}
+
+/* ─── SIDEBAR ─── */
+#sb{
+  background:var(--sb-bg);
+  border-right:1px solid var(--brd);
+  display:flex;flex-direction:column;
+  padding:16px 10px;gap:1px;
+  overflow-y:auto;
+  position:relative;
+}
+[data-theme="dark"] #sb::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(16,185,129,.3),transparent);
+}
+
+.logo{display:flex;align-items:center;gap:10px;padding:6px 10px;margin-bottom:20px}
+.logo-ico{
+  width:32px;height:32px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--chem) 0%,var(--bio) 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;
+  box-shadow:0 4px 12px rgba(16,185,129,.3);
+}
+.logo-txt{font-size:18px;font-weight:900;letter-spacing:-.5px;color:var(--tx)}
+.logo-txt span{
+  background:linear-gradient(135deg,var(--chem),var(--bio));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.sep{
+  font-size:9px;font-weight:700;text-transform:uppercase;
+  letter-spacing:1.5px;color:var(--dim);
+  padding:0 12px;margin:14px 0 5px;
+}
+
+.nav{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:var(--r-sm);
+  cursor:pointer;font-size:12.5px;font-weight:500;
+  color:var(--mt);
+  border:1px solid transparent;
+  user-select:none;position:relative;
+}
+.nav:hover{background:var(--card2);color:var(--tx)}
+.nav.on{
+  background:var(--card2);color:var(--tx);
+  border-color:var(--brd2);
+}
+[data-theme="dark"] .nav.on{
+  background:linear-gradient(135deg,rgba(16,185,129,.07),rgba(139,92,246,.04));
+  border-color:rgba(16,185,129,.15);
+}
+.nav.on::before{
+  content:'';position:absolute;left:0;top:20%;bottom:20%;
+  width:2.5px;border-radius:0 3px 3px 0;
+  background:linear-gradient(180deg,var(--chem),var(--bio));
+  left:-10px;
+}
+.ndot{width:5px;height:5px;border-radius:50%;margin-left:auto;opacity:0;transition:opacity .15s}
+.nav.on .ndot{opacity:1}
+
+.nav-foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--brd);display:flex;flex-direction:column;gap:8px}
+
+.lic{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 10px;
+  background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(16,185,129,.04));
+  border:1px solid rgba(16,185,129,.18);
+  border-radius:8px;font-size:10px;color:var(--chem);font-weight:700;
+}
+.lic-dot{width:5px;height:5px;border-radius:50%;background:var(--chem);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--chem-g)}50%{box-shadow:0 0 0 5px transparent}}
+
+.uchip{
+  display:flex;align-items:center;gap:9px;
+  padding:9px 10px;border-radius:10px;
+  background:var(--card2);border:1px solid var(--brd2);cursor:pointer;
+}
+.uchip:hover{border-color:var(--bio);box-shadow:0 0 0 3px var(--bio-d)}
+.uav{
+  width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,var(--chem),var(--bio));
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;flex-shrink:0;color:#fff;
+  box-shadow:0 2px 8px rgba(16,185,129,.3);
+}
+
+.theme-btn{
+  display:flex;align-items:center;gap:7px;padding:7px 10px;
+  border-radius:8px;background:var(--card2);border:1px solid var(--brd);
+  cursor:pointer;font-size:11.5px;font-weight:600;color:var(--mt);
+}
+.theme-btn:hover{color:var(--tx);border-color:var(--brd2)}
+
+/* ─── MAIN ─── */
+#main{overflow-y:auto;padding:26px 28px;background:var(--bg)}
+.page{display:none;animation:up .25s cubic-bezier(.16,1,.3,1)}.page.on{display:block}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.ptit{font-size:22px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px}
+.psub{font-size:12.5px;color:var(--mt);margin-bottom:22px;line-height:1.5}
+
+/* CARDS */
+.card{
+  background:var(--card);
+  border:1px solid var(--brd);
+  border-radius:var(--r);
+  padding:18px;
+}
+[data-theme="dark"] .card{box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.card:hover{border-color:var(--brd2)}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:9px;
+  font-size:12.5px;font-weight:700;cursor:pointer;border:none;
+  font-family:var(--font);
+  transition:all .15s;letter-spacing:-.1px;
+}
+.bc{background:var(--chem);color:#fff;box-shadow:0 2px 10px rgba(16,185,129,.25)}
+.bc:hover{box-shadow:0 4px 16px rgba(16,185,129,.4);transform:translateY(-1px)}
+.bb{background:var(--bio);color:#fff;box-shadow:0 2px 10px rgba(139,92,246,.25)}
+.bb:hover{box-shadow:0 4px 16px rgba(139,92,246,.4);transform:translateY(-1px)}
+.bg{background:var(--gold);color:#0F172A;box-shadow:0 2px 10px rgba(245,158,11,.2)}
+.bg:hover{box-shadow:0 4px 16px rgba(245,158,11,.35);transform:translateY(-1px)}
+.bgh{background:var(--card2);color:var(--mt);border:1px solid var(--brd)}
+.bgh:hover{color:var(--tx);border-color:var(--brd2);background:var(--card3)}
+.bred{background:var(--red-d);color:var(--red);border:1px solid rgba(244,63,94,.2)}
+.bred:hover{background:rgba(244,63,94,.18)}
+
+.chip{font-size:10px;padding:2px 8px;border-radius:99px;font-weight:700;letter-spacing:.2px}
+
+/* ─── WELCOME BANNER ─── */
+.welcome{
+  border-radius:var(--r-lg);
+  padding:24px 28px;margin-bottom:18px;
+  position:relative;overflow:hidden;
+  background:var(--card);
+  border:1px solid var(--brd);
+}
+[data-theme="dark"] .welcome{
+  background:linear-gradient(135deg,#0D1420 0%,#0A0F1A 50%,#100D1E 100%);
+  border-color:rgba(139,92,246,.15);
+}
+.welcome::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:260px;height:260px;
+  background:radial-gradient(circle,var(--chem-g),transparent 70%);
+  pointer-events:none;
+}
+.welcome::after{
+  content:'';position:absolute;bottom:-60px;right:80px;
+  width:200px;height:200px;
+  background:radial-gradient(circle,var(--bio-g),transparent 70%);
+  pointer-events:none;
+}
+.welcome-grid{display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;position:relative;z-index:1}
+.welcome-ent-ring{
+  width:72px;height:72px;flex-shrink:0;position:relative;
+}
+.welcome-ent-pct{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+
+/* ─── METRICS ─── */
+.metric{
+  background:var(--card);border:1px solid var(--brd);border-radius:var(--r);
+  padding:16px;position:relative;overflow:hidden;
+  transition:transform .15s,box-shadow .15s,border-color .15s;
+}
+.metric:hover{transform:translateY(-2px);border-color:var(--brd2);box-shadow:0 8px 24px var(--shadow)}
+.metric::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;border-radius:0 0 var(--r) var(--r);opacity:.5}
+.metric-chem::after{background:var(--chem)}
+.metric-bio::after{background:var(--bio)}
+.metric-gold::after{background:var(--gold)}
+.metric-blue::after{background:var(--blue)}
+.mico{
+  width:34px;height:34px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:10px;font-size:15px;
+}
+.mval{font-size:26px;font-weight:900;letter-spacing:-1.5px;line-height:1}
+.mlbl{font-size:11px;color:var(--mt);margin-top:3px;font-weight:500}
+.mdel{font-size:10px;margin-top:5px;font-weight:600;display:flex;align-items:center;gap:3px}
+
+/* PROGRESS RINGS */
+.ring-svg{transform:rotate(-90deg)}
+.rbg{fill:none;stroke:var(--brd2);stroke-width:5}
+.rfill{fill:none;stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)}
+
+/* PROG CARDS */
+.prog-card{
+  background:var(--card);border:1px solid var(--brd);border-radius:var(--r);
+  padding:18px;display:flex;align-items:center;gap:18px;
+}
+[data-theme="dark"] .prog-card{box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+.prog-card:hover{border-color:var(--brd2)}
+
+/* ─── MODULES ─── */
+.tabs{
+  display:flex;gap:3px;
+  background:var(--card);border:1px solid var(--brd);
+  border-radius:10px;padding:3px;margin-bottom:18px;width:fit-content;
+}
+.tab{
+  padding:7px 16px;border-radius:8px;font-size:12.5px;font-weight:700;
+  cursor:pointer;color:var(--mt);border:none;background:transparent;
+  font-family:var(--font);transition:all .15s;
+}
+.tab.tc{background:var(--chem-d);color:var(--chem);box-shadow:0 0 0 1px rgba(16,185,129,.2)}
+.tab.tb{background:var(--bio-d);color:var(--bio);box-shadow:0 0 0 1px rgba(139,92,246,.2)}
+
+.mods{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mod{
+  background:var(--card);border:1px solid var(--brd);
+  border-radius:var(--r);padding:20px;
+  cursor:pointer;transition:all .18s;
+  position:relative;overflow:hidden;
+}
+.mod::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .18s;
+  background:radial-gradient(circle at 30% 50%,var(--glow-c),transparent 60%)}
+.mod:hover{border-color:var(--brd2);transform:translateY(-3px);box-shadow:0 12px 32px var(--shadow)}
+.mod:hover::before{opacity:1}
+.mod.locked{opacity:.4;cursor:not-allowed}
+.mod.locked:hover{transform:none;box-shadow:none}
+.mbar{position:absolute;top:0;left:0;right:0;height:2px}
+.mico2{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:12px;font-size:18px;
+}
+.mtit{font-size:14px;font-weight:800;margin-bottom:4px;letter-spacing:-.2px}
+.mdesc{font-size:11.5px;color:var(--mt);line-height:1.65;margin-bottom:12px}
+.pb{height:3px;border-radius:99px;background:var(--brd);overflow:hidden}
+.pbf{height:100%;border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.mft{display:flex;align-items:center;justify-content:space-between;margin-top:8px;font-size:10.5px;color:var(--dim)}
+.mod-score{position:absolute;top:14px;right:14px;font-size:9.5px;font-weight:800;padding:3px 8px;border-radius:99px}
+
+/* ─── ENT BANK ─── */
+.ent-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.ent-tag{
+  padding:6px 14px;border-radius:99px;font-size:11.5px;font-weight:700;
+  cursor:pointer;border:1px solid var(--brd);color:var(--mt);
+  background:var(--card);transition:all .12s;
+}
+.ent-tag:hover{border-color:var(--brd2);color:var(--tx)}
+.ent-tag.on{color:#fff;border-color:transparent;box-shadow:0 2px 10px var(--shadow)}
+
+.ent-list{display:flex;flex-direction:column;gap:10px}
+.ent-item{
+  background:var(--card);border:1px solid var(--brd);
+  border-radius:var(--r);padding:18px 20px;
+  transition:all .14s;
+}
+.ent-item:hover{border-color:var(--brd2);box-shadow:0 4px 16px var(--shadow)}
+.ent-item.trap{border-left:3px solid var(--red)}
+.ent-item.answered-ok{border-left:3px solid var(--chem)}
+.ent-item.answered-err{border-left:3px solid var(--red)}
+.ent-year{
+  font-size:10px;font-weight:700;color:var(--dim);
+  margin-bottom:8px;display:flex;align-items:center;gap:7px;
+  font-family:var(--mono);
+}
+.ent-q{font-size:13.5px;font-weight:700;line-height:1.55;margin-bottom:12px;color:var(--tx)}
+.ent-opts{display:flex;flex-direction:column;gap:6px}
+.ent-opt{
+  padding:9px 14px;border-radius:9px;border:1px solid var(--brd);
+  font-size:12px;cursor:pointer;background:var(--card2);color:var(--mt);
+  transition:all .12s;font-family:var(--font);font-weight:500;
+}
+.ent-opt:hover{border-color:var(--brd2);color:var(--tx);background:var(--card3);transform:translateX(2px)}
+.ent-opt.ok{border-color:var(--chem)!important;background:var(--chem-d)!important;color:var(--chem)!important;font-weight:700}
+.ent-opt.err{border-color:var(--red)!important;background:var(--red-d)!important;color:var(--red)!important;animation:shk .35s}
+.ent-opt.dis{pointer-events:none}
+@keyframes shk{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.ent-exp{
+  display:none;margin-top:10px;
+  padding:10px 14px;
+  background:linear-gradient(135deg,rgba(16,185,129,.07),rgba(16,185,129,.03));
+  border:1px solid rgba(16,185,129,.15);
+  border-radius:9px;font-size:11.5px;color:var(--mt);line-height:1.65;
+}
+.ent-exp.on{display:block}
+.trap-badge{
+  display:inline-flex;align-items:center;gap:4px;font-size:9px;
+  padding:2px 8px;border-radius:99px;
+  background:var(--red-d);color:var(--red);font-weight:800;
+  border:1px solid rgba(244,63,94,.2);
+}
+
+/* ─── ERRORS ─── */
+.err-empty{text-align:center;padding:52px 24px;color:var(--mt)}
+.err-item{
+  background:var(--card);border:1px solid var(--brd);
+  border-left:3px solid var(--red);
+  border-radius:var(--r);padding:16px 18px;margin-bottom:10px;
+  transition:box-shadow .14s;
+}
+.err-item:hover{box-shadow:0 4px 16px var(--shadow)}
+.err-topic{font-size:9.5px;font-weight:700;color:var(--red);margin-bottom:5px;text-transform:uppercase;letter-spacing:.8px;font-family:var(--mono)}
+.err-q{font-size:13px;font-weight:700;margin-bottom:8px;line-height:1.5}
+.err-ans{font-size:11.5px;color:var(--mt);line-height:1.7}
+.err-ans strong{color:var(--red)}.err-ans em{color:var(--chem);font-style:normal;font-weight:700}
+
+/* ─── AI INSIGHT ─── */
+.ai-insight{
+  border-radius:var(--r);padding:20px;margin-bottom:14px;
+  position:relative;overflow:hidden;
+  background:var(--card);border:1px solid var(--brd);
+}
+[data-theme="dark"] .ai-insight{
+  background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(16,185,129,.03));
+  border-color:rgba(139,92,246,.15);
+}
+.ai-insight::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:radial-gradient(circle,var(--bio-g),transparent 70%);pointer-events:none}
+.insight-title{font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.insight-badge{font-size:8.5px;padding:3px 7px;border-radius:99px;background:var(--bio-d);color:var(--bio);border:1px solid rgba(139,92,246,.2);font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.weak-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--brd)}
+.weak-item:last-child{border-bottom:none}
+.weak-bar{flex:1;height:4px;border-radius:99px;background:var(--brd);overflow:hidden}
+.weak-fill{height:100%;border-radius:99px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+
+/* ─── FLASHCARDS ─── */
+.fcdg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.fdd{
+  background:var(--card);border:1px solid var(--brd);
+  border-radius:var(--r);padding:16px;cursor:pointer;transition:all .14s;
+}
+.fdd:hover{border-color:var(--brd2);transform:translateY(-1px);box-shadow:0 6px 20px var(--shadow)}
+.fdd.sel{border-color:var(--bio);background:var(--bio-d);box-shadow:0 0 0 2px rgba(139,92,246,.15)}
+
+.fcarea{max-width:500px}
+.fccard{
+  background:var(--card);border:1px solid var(--brd);
+  border-radius:var(--r-lg);min-height:200px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:28px;cursor:pointer;text-align:center;margin-bottom:14px;
+  position:relative;overflow:hidden;
+  transition:border-color .2s,box-shadow .2s,transform .15s;
+}
+.fccard::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .2s;background:radial-gradient(circle at center,var(--glow-b),transparent 70%)}
+.fccard:hover{border-color:var(--brd2);transform:scale(1.01);box-shadow:0 8px 28px var(--shadow)}
+.fccard:hover::before{opacity:1}
+.fctag{font-size:9.5px;text-transform:uppercase;letter-spacing:1.2px;font-weight:700;margin-bottom:10px;font-family:var(--mono)}
+.fcq{font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:8px;line-height:1.1}
+.fchint{font-size:11px;color:var(--dim);display:flex;align-items:center;gap:4px}
+.fca{font-size:13.5px;font-weight:600;line-height:1.7;color:var(--tx)}
+.fcbtns{display:flex;gap:9px;margin-bottom:14px}
+.fcdots{display:flex;gap:5px;flex-wrap:wrap}
+
+/* ─── SCHEDULE ─── */
+.sday{
+  background:var(--card);border:1px solid var(--brd);
+  border-radius:var(--r);overflow:hidden;margin-bottom:10px;
+  transition:box-shadow .14s;
+}
+.sday:hover{box-shadow:0 4px 16px var(--shadow)}
+.sdayhd{
+  padding:13px 16px;display:flex;align-items:center;
+  justify-content:space-between;cursor:pointer;transition:background .12s;
+}
+.sdayhd:hover{background:var(--card2)}
+.sdbody{padding:4px 12px 14px;display:flex;flex-direction:column;gap:7px}
+.sitem{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 12px;background:var(--card2);
+  border:1px solid var(--brd);border-radius:9px;
+  cursor:pointer;transition:all .12s;
+}
+.sitem:hover{border-color:var(--brd2);background:var(--card3)}
+.stime{font-family:var(--mono);font-size:10.5px;color:var(--dim);width:42px;flex-shrink:0;font-weight:600}
+.sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.stit{font-size:12px;font-weight:600;flex:1}
+.sdur{font-size:10px;color:var(--mt)}
+.sstat{font-size:9.5px;padding:3px 8px;border-radius:99px;font-weight:700;white-space:nowrap}
+.sitem.done{opacity:.45}
+.sitem.done .stit{text-decoration:line-through}
+
+/* ─── PROFILE ─── */
+.phdr{
+  border-radius:var(--r-lg);padding:24px;margin-bottom:16px;
+  position:relative;overflow:hidden;
+  display:flex;gap:20px;align-items:flex-start;
+  background:var(--card);border:1px solid var(--brd);
+}
+[data-theme="dark"] .phdr{
+  background:linear-gradient(135deg,#0D1420,#100D1E);
+  border-color:rgba(139,92,246,.15);
+}
+.phdr::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,var(--bio-g),transparent 70%);pointer-events:none}
+.phdr::after{content:'';position:absolute;bottom:-40px;left:50px;width:140px;height:140px;background:radial-gradient(circle,var(--chem-g),transparent 70%);pointer-events:none}
+.avbig{
+  width:68px;height:68px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--chem),var(--bio));
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:900;color:#fff;
+  box-shadow:0 4px 16px rgba(16,185,129,.3);
+  position:relative;z-index:1;
+}
+.avbig::after{
+  content:'';position:absolute;inset:-2px;border-radius:50%;
+  background:linear-gradient(135deg,var(--chem),var(--bio));
+  z-index:-1;opacity:.3;filter:blur(4px);
+}
+.pbadges{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.pbadge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:99px;
+  font-size:10.5px;font-weight:700;border:1px solid;
+}
+.stsec{
+  background:var(--card);border:1px solid var(--brd);
+  border-radius:var(--r);margin-bottom:10px;overflow:hidden;
+}
+.sthd{
+  padding:13px 18px;border-bottom:1px solid var(--brd);
+  font-size:12.5px;font-weight:800;display:flex;align-items:center;gap:8px;
+}
+.strow{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 18px;border-bottom:1px solid var(--brd);transition:background .1s;
+}
+.strow:last-child{border-bottom:none}
+.strow:hover{background:var(--card2)}
+.tog{
+  width:34px;height:19px;border-radius:99px;background:var(--brd);
+  position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;
+}
+.tog.on{background:var(--chem);box-shadow:0 0 10px rgba(16,185,129,.25)}
+.tog::after{
+  content:'';position:absolute;top:2.5px;left:2.5px;
+  width:14px;height:14px;border-radius:50%;background:#fff;
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+.tog.on::after{transform:translateX(15px)}
+.inp{
+  background:var(--card2);border:1px solid var(--brd);
+  border-radius:8px;padding:7px 11px;font-size:12px;
+  color:var(--tx);font-family:var(--font);outline:none;
+  transition:border-color .15s,box-shadow .15s;
+}
+.inp:focus{border-color:var(--bio);box-shadow:0 0 0 3px var(--bio-d)}
+
+/* ─── MODAL ─── */
+#ov{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(12px) saturate(1.2);
+  display:none;align-items:center;justify-content:center;
+  z-index:999;padding:16px;
+}
+#ov.on{display:flex;animation:fi .18s ease}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+#mb{
+  background:var(--card);border:1px solid var(--brd2);
+  border-radius:var(--r-lg);width:100%;max-width:660px;
+  max-height:88vh;overflow-y:auto;
+  box-shadow:0 32px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05);
+  animation:modalIn .25s cubic-bezier(.16,1,.3,1);
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+.mh{
+  padding:22px 24px 18px;border-bottom:1px solid var(--brd);
+  display:flex;align-items:flex-start;justify-content:space-between;
+  position:sticky;top:0;background:var(--card);z-index:1;border-radius:var(--r-lg) var(--r-lg) 0 0;
+}
+.mhtit{font-size:17px;font-weight:900;letter-spacing:-.3px}
+.mhsub{font-size:11px;color:var(--mt);margin-top:3px}
+.mcls{
+  width:28px;height:28px;border-radius:8px;
+  background:var(--card2);border:1px solid var(--brd);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--mt);flex-shrink:0;font-size:14px;
+  transition:all .12s;
+}
+.mcls:hover{color:var(--tx);background:var(--card3);border-color:var(--brd2)}
+.mbody{padding:22px 24px}
+.thcards{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.thcard{
+  background:var(--card2);border:1px solid var(--brd);
+  border-radius:10px;padding:15px 18px;
+  position:relative;overflow:hidden;
+}
+[data-theme="dark"] .thcard{border-left:2px solid var(--brd2)}
+.thnum{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin-bottom:7px;font-family:var(--mono)}
+.thtxt{font-size:13px;line-height:1.78;color:var(--mt)}.thtxt strong{color:var(--tx);font-weight:700}
+.qzsec{border-top:1px solid var(--brd);padding-top:20px}
+.qdots{display:flex;gap:5px;margin-bottom:14px}
+.qd{width:8px;height:8px;border-radius:50%;background:var(--brd);transition:all .2s}
+.qd.ok{background:var(--chem);box-shadow:0 0 6px rgba(16,185,129,.4)}
+.qd.err{background:var(--red)}
+.qd.cur{background:var(--mt);transform:scale(1.3)}
+.qq{margin-bottom:18px}
+.qqtxt{font-size:14px;font-weight:800;margin-bottom:10px;line-height:1.5;letter-spacing:-.2px}
+.qopts{display:flex;flex-direction:column;gap:7px}
+.qopt{
+  padding:10px 14px;border-radius:9px;border:1px solid var(--brd);
+  font-size:12.5px;cursor:pointer;background:var(--card2);color:var(--mt);
+  transition:all .12s;font-weight:500;font-family:var(--font);
+}
+.qopt:hover{border-color:var(--brd2);color:var(--tx);background:var(--card3);transform:translateX(3px)}
+.qopt.ok{border-color:var(--chem)!important;background:rgba(16,185,129,.08)!important;color:var(--chem)!important;font-weight:700}
+.qopt.err{border-color:var(--red)!important;background:var(--red-d)!important;color:var(--red)!important;animation:shk .35s}
+.qopt.dis{pointer-events:none}
+.qexp{
+  display:none;margin-top:10px;padding:10px 14px;
+  background:linear-gradient(135deg,rgba(16,185,129,.07),rgba(16,185,129,.03));
+  border:1px solid rgba(16,185,129,.15);border-left:3px solid var(--chem);
+  border-radius:9px;font-size:12px;color:var(--mt);line-height:1.65;
+}
+.qexp.on{display:block}
+.qres{text-align:center;padding:20px;display:none}.qres.on{display:block}
+.qremo{font-size:48px;margin-bottom:10px}
+.qrtit{font-size:18px;font-weight:900;margin-bottom:4px;letter-spacing:-.3px}
+.qrscore{font-size:42px;font-weight:900;letter-spacing:-2px;margin:12px 0;line-height:1}
+.qrsub{font-size:12.5px;color:var(--mt)}
+
+/* ─── CHAT PANEL ─── */
+#cp{
+  background:var(--card);border-left:1px solid var(--brd);
+  display:flex;flex-direction:column;height:100vh;overflow:hidden;
+}
+.cph{
+  padding:16px 16px 14px;border-bottom:1px solid var(--brd);flex-shrink:0;
+  background:var(--card);
+}
+[data-theme="dark"] .cph{background:linear-gradient(180deg,rgba(139,92,246,.04),transparent)}
+.cptit{font-size:13.5px;font-weight:800;display:flex;align-items:center;gap:7px;letter-spacing:-.2px}
+.aibadge{
+  font-size:8px;padding:2px 7px;border-radius:99px;
+  background:linear-gradient(135deg,var(--bio),#4F46E5);
+  color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:.6px;
+}
+.cpsub{font-size:10.5px;color:var(--mt);margin-top:2px}
+.cpstat{display:flex;align-items:center;gap:5px;font-size:9.5px;color:var(--chem);font-weight:700;margin-top:4px}
+.cpsdot{width:5px;height:5px;border-radius:50%;background:var(--chem);animation:pulse 2s infinite}
+
+#msgs{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:10px}
+.msg{display:flex;gap:7px}.msg.u{flex-direction:row-reverse}
+.mav{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;
+}
+.mav.ai{background:linear-gradient(135deg,var(--bio),#4F46E5);color:#fff;box-shadow:0 2px 8px rgba(139,92,246,.3)}
+.mav.us{background:linear-gradient(135deg,var(--chem),#059669);color:#fff;box-shadow:0 2px 8px rgba(16,185,129,.3)}
+.bub{
+  max-width:88%;padding:9px 13px;border-radius:12px;
+  font-size:12px;line-height:1.72;
+}
+.bub.ai{
+  background:var(--card2);border:1px solid var(--brd);color:var(--mt);
+  border-radius:4px 12px 12px 12px;
+}
+.bub.user{
+  background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(139,92,246,.08));
+  border:1px solid rgba(139,92,246,.2);color:var(--tx);
+  border-radius:12px 4px 12px 12px;
+}
+.bub.ai strong{color:var(--tx)}
+.bub.ai code{
+  font-family:var(--mono);font-size:10.5px;
+  background:rgba(139,92,246,.12);padding:1px 5px;
+  border-radius:4px;color:var(--bio);
+}
+.bub.ai li{margin-left:14px;margin-bottom:2px}
+.aith{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--bio)}
+.aitd{width:5px;height:5px;border-radius:50%;background:var(--bio);animation:tb 1s infinite}
+.aitd:nth-child(2){animation-delay:.15s}.aitd:nth-child(3){animation-delay:.3s}
+@keyframes tb{0%,60%,100%{transform:none;opacity:.5}30%{transform:translateY(-5px);opacity:1}}
+
+.cpchips{padding:8px 12px;border-top:1px solid var(--brd);display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+.cpclbl{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--dim);margin-bottom:2px;font-family:var(--mono)}
+.cpchip{
+  padding:6px 10px;border-radius:8px;background:var(--card2);
+  border:1px solid var(--brd);font-size:10.5px;color:var(--mt);
+  cursor:pointer;transition:all .12s;text-align:left;font-family:var(--font);line-height:1.4;
+}
+.cpchip:hover{border-color:var(--bio);color:var(--tx);background:var(--bio-d);transform:translateX(2px)}
+
+.cpirow{padding:10px 12px;border-top:1px solid var(--brd);display:flex;gap:7px;flex-shrink:0}
+.cpinp{
+  flex:1;background:var(--card2);border:1px solid var(--brd);
+  border-radius:10px;padding:8px 12px;font-size:12px;color:var(--tx);
+  font-family:var(--font);resize:none;outline:none;
+  transition:border-color .15s,box-shadow .15s;line-height:1.5;
+}
+.cpinp:focus{border-color:var(--bio);box-shadow:0 0 0 3px var(--bio-d)}
+.cpinp::placeholder{color:var(--dim)}
+.cpsend{
+  width:34px;height:34px;border-radius:10px;
+  background:linear-gradient(135deg,var(--bio),#4F46E5);
+  border:none;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;color:#fff;flex-shrink:0;font-size:14px;
+  box-shadow:0 2px 8px rgba(139,92,246,.3);
+  transition:all .15s;
+}
+.cpsend:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(139,92,246,.45)}
+.cpsend:disabled{background:var(--brd);box-shadow:none;cursor:not-allowed;transform:none}
+
+/* ─── CHARTS ─── */
+.bars{display:flex;align-items:flex-end;gap:5px;height:72px}
+.bar{flex:1;border-radius:4px 4px 0 0;transition:opacity .2s}
+.bar:hover{opacity:.75;filter:brightness(1.15)}
+.barlbl{font-size:8.5px;color:var(--dim);text-align:center;margin-top:4px;font-family:var(--mono)}
+.hm{display:grid;grid-template-columns:repeat(7,1fr);gap:2.5px}
+.hmc{height:13px;border-radius:3px;background:var(--brd)}
+.hmc.l1{background:rgba(16,185,129,.2)}.hmc.l2{background:rgba(16,185,129,.45)}.hmc.l3{background:rgba(16,185,129,.7)}.hmc.l4{background:var(--chem)}
+
+/* ─── NOTIFICATION TOAST ─── */
+.notify{
+  position:fixed;bottom:24px;right:330px;
+  padding:11px 18px;
+  background:linear-gradient(135deg,var(--chem),#059669);
+  color:#fff;border-radius:11px;font-size:12.5px;font-weight:700;
+  z-index:9999;
+  box-shadow:0 8px 24px rgba(16,185,129,.35),0 2px 8px rgba(0,0,0,.2);
+  animation:toastIn .3s cubic-bezier(.16,1,.3,1);
+  display:flex;align-items:center;gap:7px;
+}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px) scale(.95)}to{opacity:1;transform:none}}
+
+</style>
+</head>
+<body>
+<div id="app">
+<!-- SIDEBAR -->
+<nav id="sb">
+  <div class="logo"><div class="logo-ico">⚗️</div><span class="logo-txt">Chem<span>io</span></span></div>
+  <div class="sep">Меню</div>
+  <div class="nav on" onclick="go('dash',this)">🏠 Главная<span class="ndot" style="background:var(--tx)"></span></div>
+  <div class="nav" onclick="go('mods',this)">📚 Модули<span class="ndot" style="background:var(--chem)"></span></div>
+  <div class="nav" onclick="go('ent',this)">🏆 Задания ЕНТ<span class="ndot" style="background:var(--gold)"></span></div>
+  <div class="nav" onclick="go('errors',this)">❌ Мои ошибки<span class="ndot" style="background:var(--red)"></span></div>
+  <div class="nav" onclick="go('fc',this)">🃏 Карточки<span class="ndot" style="background:var(--chem)"></span></div>
+  <div class="nav" onclick="go('an',this)">📊 Аналитика<span class="ndot" style="background:var(--bio)"></span></div>
+  <div class="nav" onclick="go('sched',this)">📅 Расписание<span class="ndot" style="background:var(--gold)"></span></div>
+  <div class="nav" onclick="go('prof',this)">👤 Профиль<span class="ndot" style="background:var(--mt)"></span></div>
+  <div class="sep">Предметы</div>
+  <div class="nav" onclick="go('mods',this);setTimeout(()=>stab('c'),60)"><span style="width:6px;height:6px;border-radius:50%;background:var(--chem);flex-shrink:0"></span>Химия<span class="ndot" style="background:var(--chem)"></span></div>
+  <div class="nav" onclick="go('mods',this);setTimeout(()=>stab('b'),60)"><span style="width:6px;height:6px;border-radius:50%;background:var(--bio);flex-shrink:0"></span>Биология<span class="ndot" style="background:var(--bio)"></span></div>
+  <div class="nav-foot">
+    <div class="theme-btn" onclick="toggleTheme()"><span id="theme-ico">🌙</span><span id="theme-lbl">Тёмная тема</span></div>
+    <div class="lic"><div class="lic-dot"></div>School License Active</div>
+    <div class="uchip" onclick="go('prof',null)"><div class="uav" id="sb-av">А</div><div><div style="font-size:12px;font-weight:700" id="sb-name">Алиш Рахимов</div><div style="font-size:10px;color:var(--mt)" id="sb-grade">9 класс · Алматы</div></div></div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main id="main">
+
+<!-- DASHBOARD -->
+<div id="p-dash" class="page on">
+  <div class="welcome">
+    <div style="font-size:18px;font-weight:800;position:relative;z-index:1" id="welcome-name">👋 Привет, Алиш!</div>
+    <div style="font-size:12px;color:var(--mt);margin-top:4px;position:relative;z-index:1" id="tdate"></div>
+    <div style="font-size:12px;color:var(--mt);margin-top:2px;position:relative;z-index:1" id="ai-tip">Загружаю персональный совет...</div>
+  </div>
+  <div class="g4" style="margin-bottom:14px">
+    <div class="metric"><div class="mico" style="background:var(--gold-d)">🔥</div><div class="mval" style="color:var(--gold)" id="ds">0</div><div class="mlbl">Огонь дней</div><div class="mdel" style="color:var(--gold)" id="ds-rec">Рекорд: 0</div></div>
+    <div class="metric"><div class="mico" style="background:var(--chem-d)">⏱️</div><div class="mval" style="color:var(--chem)" id="dh">0</div><div class="mlbl">Часов изучено</div><div class="mdel" style="color:var(--chem)" id="dh-sub">Сегодня: 0</div></div>
+    <div class="metric"><div class="mico" style="background:var(--bio-d)">🃏</div><div class="mval" style="color:var(--bio)" id="dc">0</div><div class="mlbl">Карточек освоено</div><div class="mdel" style="color:var(--bio)" id="dc-sub">Ошибок: 0</div></div>
+    <div class="metric"><div class="mico" style="background:var(--blue-d)">🎯</div><div class="mval" style="color:var(--blue)" id="dent">0%</div><div class="mlbl">Готовность к ЕНТ</div><div class="mdel" style="color:var(--blue)" id="dent-sub">Вопросов: 0</div></div>
+  </div>
+  <div class="g2" style="margin-bottom:14px">
+    <div class="card"><div style="display:flex;align-items:center;gap:14px"><div style="position:relative;flex-shrink:0"><svg class="ring-svg" width="76" height="76" viewBox="0 0 76 76"><circle class="rbg" cx="38" cy="38" r="32"/><circle class="rfill" cx="38" cy="38" r="32" stroke="var(--chem)" stroke-dasharray="201" id="rc-chem" stroke-dashoffset="201"/></svg><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font-size:15px;font-weight:900;color:var(--chem)" id="rp-chem">0%</span><span style="font-size:8px;font-weight:700;text-transform:uppercase;color:var(--dim)">Хим</span></div></div><div><div style="font-size:13px;font-weight:800;margin-bottom:3px">🧪 Химия</div><div style="font-size:11px;color:var(--mt);line-height:1.6" id="chem-prog-txt">Начни изучение модулей!</div></div></div></div>
+    <div class="card"><div style="display:flex;align-items:center;gap:14px"><div style="position:relative;flex-shrink:0"><svg class="ring-svg" width="76" height="76" viewBox="0 0 76 76"><circle class="rbg" cx="38" cy="38" r="32"/><circle class="rfill" cx="38" cy="38" r="32" stroke="var(--bio)" stroke-dasharray="201" id="rc-bio" stroke-dashoffset="201"/></svg><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font-size:15px;font-weight:900;color:var(--bio)" id="rp-bio">0%</span><span style="font-size:8px;font-weight:700;text-transform:uppercase;color:var(--dim)">Био</span></div></div><div><div style="font-size:13px;font-weight:800;margin-bottom:3px">🧬 Биология</div><div style="font-size:11px;color:var(--mt);line-height:1.6" id="bio-prog-txt">Начни изучение модулей!</div></div></div></div>
+  </div>
+  <div style="font-size:14px;font-weight:800;margin-bottom:10px">Последняя активность</div>
+  <div id="activity-feed" style="display:flex;flex-direction:column;gap:7px"></div>
+  <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn bc" onclick="go('mods',null)">🧪 К модулям</button>
+    <button class="btn bg" onclick="go('ent',null)">🏆 Задания ЕНТ</button>
+    <button class="btn bred" onclick="go('errors',null)">❌ Мои ошибки</button>
+    <button class="btn bgh" onclick="go('an',null)">📊 Аналитика</button>
+  </div>
+</div>
+
+<!-- MODULES -->
+<div id="p-mods" class="page">
+  <div class="ptit">Учебные модули</div>
+  <div class="psub">Теория с подсказками и мини-тест. Ошибки сохраняются автоматически.</div>
+  <div class="tabs"><button id="tc" class="tab tc" onclick="stab('c')">🧪 Химия</button><button id="tb" class="tab" onclick="stab('b')">🧬 Биология</button></div>
+  <div id="cm" class="mods">
+    <div class="mod" onclick="openM('per')"><div class="mbar" style="background:linear-gradient(90deg,var(--chem),#059669)"></div><div id="ms-per" class="mod-score" style="background:var(--chem-d);color:var(--chem)">—</div><div class="mico2" style="background:var(--chem-d)">⚛️</div><div class="mtit">Периодическая таблица</div><div class="mdesc">Закон Менделеева, группы, периоды, электронная конфигурация.</div><div class="pb"><div class="pbf" id="mp-per" style="width:0%;background:var(--chem)"></div></div><div class="mft"><span id="mm-per">Не начат</span><span class="chip" style="background:var(--chem-d);color:var(--chem)">9 кл</span></div></div>
+    <div class="mod" onclick="openM('org')"><div class="mbar" style="background:linear-gradient(90deg,var(--gold),var(--chem))"></div><div id="ms-org" class="mod-score" style="background:var(--gold-d);color:var(--gold)">—</div><div class="mico2" style="background:var(--gold-d)">🔬</div><div class="mtit">Органические соединения</div><div class="mdesc">Алканы, алкены, алкины. Углеродные цепочки, изомерия.</div><div class="pb"><div class="pbf" id="mp-org" style="width:0%;background:var(--gold)"></div></div><div class="mft"><span id="mm-org">Не начат</span><span class="chip" style="background:var(--gold-d);color:var(--gold)">10 кл</span></div></div>
+    <div class="mod" onclick="openM('rxn')"><div class="mbar" style="background:linear-gradient(90deg,var(--blue),var(--bio))"></div><div id="ms-rxn" class="mod-score" style="background:var(--blue-d);color:var(--blue)">—</div><div class="mico2" style="background:var(--blue-d)">⚗️</div><div class="mtit">Химические реакции</div><div class="mdesc">Типы реакций, коэффициенты, закон сохранения массы.</div><div class="pb"><div class="pbf" id="mp-rxn" style="width:0%;background:var(--blue)"></div></div><div class="mft"><span id="mm-rxn">Не начат</span><span class="chip" style="background:var(--blue-d);color:var(--blue)">8 кл</span></div></div>
+    <div class="mod" onclick="openM('acid')"><div class="mbar" style="background:linear-gradient(90deg,var(--pink),var(--red))"></div><div id="ms-acid" class="mod-score" style="background:var(--red-d);color:var(--red)">—</div><div class="mico2" style="background:var(--red-d)">🧫</div><div class="mtit">Кислоты и основания</div><div class="mdesc">pH, индикаторы, нейтрализация. Буферные растворы.</div><div class="pb"><div class="pbf" id="mp-acid" style="width:0%;background:var(--red)"></div></div><div class="mft"><span id="mm-acid">Не начат</span><span class="chip" style="background:var(--red-d);color:var(--red)">9 кл</span></div></div>
+  </div>
+  <div id="bm" class="mods" style="display:none">
+    <div class="mod" onclick="openM('dna')"><div class="mbar" style="background:linear-gradient(90deg,var(--bio),#6D28D9)"></div><div id="ms-dna" class="mod-score" style="background:var(--bio-d);color:var(--bio)">—</div><div class="mico2" style="background:var(--bio-d)">🧬</div><div class="mtit">Репликация ДНК</div><div class="mdesc">Как клетка копирует геном. Хеликаза, полимераза, комплементарность.</div><div class="pb"><div class="pbf" id="mp-dna" style="width:0%;background:var(--bio)"></div></div><div class="mft"><span id="mm-dna">Не начат</span><span class="chip" style="background:var(--bio-d);color:var(--bio)">10 кл</span></div></div>
+    <div class="mod" onclick="openM('pht')"><div class="mbar" style="background:linear-gradient(90deg,var(--chem),var(--green))"></div><div id="ms-pht" class="mod-score" style="background:rgba(132,204,22,.12);color:var(--green)">—</div><div class="mico2" style="background:rgba(132,204,22,.12)">🌿</div><div class="mtit">Фотосинтез</div><div class="mdesc">Световая и тёмная фазы. Хлорофилл, АТФ, цикл Кальвина.</div><div class="pb"><div class="pbf" id="mp-pht" style="width:0%;background:var(--green)"></div></div><div class="mft"><span id="mm-pht">Не начат</span><span class="chip" style="background:rgba(132,204,22,.12);color:var(--green)">9 кл</span></div></div>
+    <div class="mod" onclick="openM('gen')"><div class="mbar" style="background:linear-gradient(90deg,var(--pink),var(--bio))"></div><div id="ms-gen" class="mod-score" style="background:rgba(236,72,153,.12);color:var(--pink)">—</div><div class="mico2" style="background:rgba(236,72,153,.12)">🔬</div><div class="mtit">Основы генетики</div><div class="mdesc">Законы Менделя, решётка Пеннета. Мутации и изменчивость.</div><div class="pb"><div class="pbf" id="mp-gen" style="width:0%;background:var(--pink)"></div></div><div class="mft"><span id="mm-gen">Не начат</span><span class="chip" style="background:rgba(236,72,153,.12);color:var(--pink)">10 кл</span></div></div>
+    <div class="mod" onclick="openM('cell')"><div class="mbar" style="background:linear-gradient(90deg,var(--gold),var(--bio))"></div><div id="ms-cell" class="mod-score" style="background:var(--gold-d);color:var(--gold)">—</div><div class="mico2" style="background:var(--gold-d)">🦠</div><div class="mtit">Строение клетки</div><div class="mdesc">Органеллы, мембрана, митохондрии, рибосомы. Прокариоты vs эукариоты.</div><div class="pb"><div class="pbf" id="mp-cell" style="width:0%;background:var(--gold)"></div></div><div class="mft"><span id="mm-cell">Не начат</span><span class="chip" style="background:var(--gold-d);color:var(--gold)">8 кл</span></div></div>
+  </div>
+</div>
+
+<!-- ENT BANK -->
+<div id="p-ent" class="page">
+  <div class="ptit">Задания ЕНТ прошлых лет</div>
+  <div class="psub">Реальные вопросы с экзаменов. Ловушки отмечены 🪤. Ошибки сохраняются.</div>
+  <div class="ent-filter">
+    <div class="ent-tag on" style="background:var(--bio)" onclick="filterEnt('all',this)">Все</div>
+    <div class="ent-tag" onclick="filterEnt('chem',this)" style="--ac:var(--chem)">🧪 Химия</div>
+    <div class="ent-tag" onclick="filterEnt('bio',this)" style="--ac:var(--bio)">🧬 Биология</div>
+    <div class="ent-tag" onclick="filterEnt('trap',this)" style="--ac:var(--red)">🪤 Ловушки</div>
+    <div class="ent-tag" onclick="filterEnt('wrong',this)" style="--ac:var(--red)">❌ Мои ошибки</div>
+    <div class="ent-tag" onclick="filterEnt('unseen',this)" style="--ac:var(--gold)">👁 Не пройдено</div>
+  </div>
+  <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center">
+    <div style="font-size:12px;color:var(--mt)" id="ent-stats-line">Загрузка...</div>
+    <button class="btn bgh" style="margin-left:auto" onclick="shuffleEnt()">🔀 Перемешать</button>
+    <button class="btn bred" onclick="resetEntProgress()">↺ Сбросить</button>
+  </div>
+  <div class="ent-list" id="ent-list"></div>
+</div>
+
+<!-- ERRORS PAGE -->
+<div id="p-errors" class="page">
+  <div class="ptit">Мои ошибки</div>
+  <div class="psub">Все вопросы, на которые ты ответил неверно. Повторяй до победного!</div>
+  <div style="display:flex;gap:8px;margin-bottom:16px">
+    <button class="btn bc" onclick="retryErrors()">🔄 Повторить все ошибки</button>
+    <button class="btn bred" onclick="clearErrors()">🗑 Очистить</button>
+    <div style="margin-left:auto;font-size:12px;color:var(--mt);align-self:center" id="err-count">0 ошибок</div>
+  </div>
+  <div id="err-list"></div>
+</div>
+
+<!-- FLASHCARDS -->
+<div id="p-fc" class="page">
+  <div class="ptit">Флэш-карточки</div>
+  <div class="psub">Активное вспоминание. Прогресс сохраняется между сессиями.</div>
+  <div class="fcdg">
+    <div class="fdd sel" onclick="selDeck(0,this)"><div style="font-size:18px;margin-bottom:6px">⚛️</div><div style="font-size:12.5px;font-weight:800">Химия: Формулы</div><div style="font-size:10.5px;color:var(--mt);margin-top:2px">8 карточек</div><div style="margin-top:8px;height:2.5px;border-radius:99px;background:var(--brd)"><div id="dp0" style="height:100%;background:var(--chem);border-radius:99px;width:0%"></div></div></div>
+    <div class="fdd" onclick="selDeck(1,this)"><div style="font-size:18px;margin-bottom:6px">🧬</div><div style="font-size:12.5px;font-weight:800">Биология: Термины</div><div style="font-size:10.5px;color:var(--mt);margin-top:2px">8 карточек</div><div style="margin-top:8px;height:2.5px;border-radius:99px;background:var(--brd)"><div id="dp1" style="height:100%;background:var(--bio);border-radius:99px;width:0%"></div></div></div>
+    <div class="fdd" onclick="selDeck(2,this)"><div style="font-size:18px;margin-bottom:6px">🏆</div><div style="font-size:12.5px;font-weight:800">ЕНТ: Смешанный</div><div style="font-size:10.5px;color:var(--mt);margin-top:2px">10 карточек</div><div style="margin-top:8px;height:2.5px;border-radius:99px;background:var(--brd)"><div id="dp2" style="height:100%;background:var(--gold);border-radius:99px;width:0%"></div></div></div>
+  </div>
+  <div class="fcarea">
+    <div class="fccard" id="fccard" onclick="flip()">
+      <div id="ffront" style="display:flex;flex-direction:column;align-items:center;width:100%;text-align:center"><div class="fctag" id="ftag" style="color:var(--chem)">Карточка 1/8</div><div class="fcq" id="fq">H₂O</div><div class="fchint">Нажми, чтобы перевернуть 👆</div></div>
+      <div id="fback" style="display:none;width:100%;text-align:center"><div class="fctag" id="fbtag">Ответ</div><div class="fca" id="fa">...</div></div>
+    </div>
+    <div id="fcbtns" class="fcbtns" style="display:none">
+      <button class="btn bred" style="flex:1" onclick="nxt(false)">✗ Не знал</button>
+      <button class="btn bc" style="flex:1" onclick="nxt(true)">✓ Знал!</button>
+    </div>
+    <div id="fcdots" style="display:flex;gap:4px;flex-wrap:wrap"></div>
+  </div>
+  <div class="g3" style="margin-top:16px">
+    <div class="card" style="text-align:center;padding:12px"><div style="font-size:20px;font-weight:900;color:var(--chem)" id="fck">0</div><div style="font-size:10.5px;color:var(--mt);margin-top:2px">✓ Знал</div></div>
+    <div class="card" style="text-align:center;padding:12px"><div style="font-size:20px;font-weight:900;color:var(--red)" id="fcu">0</div><div style="font-size:10.5px;color:var(--mt);margin-top:2px">✗ Не знал</div></div>
+    <div class="card" style="text-align:center;padding:12px"><div style="font-size:20px;font-weight:900;color:var(--mt)" id="fcl">8</div><div style="font-size:10.5px;color:var(--mt);margin-top:2px">Осталось</div></div>
+  </div>
+</div>
+
+<!-- ANALYTICS -->
+<div id="p-an" class="page">
+  <div class="ptit">Аналитика & Анализ</div>
+  <div class="psub">Персональный разбор твоих сильных и слабых сторон на основе данных.</div>
+  <div class="ai-insight">
+    <div class="insight-title">🤖 AI-анализ <span class="insight-badge">Персонально для тебя</span></div>
+    <div id="ai-analysis" style="font-size:12.5px;color:var(--mt);line-height:1.75">Анализирую твои результаты...</div>
+  </div>
+  <div class="g2" style="margin-bottom:12px">
+    <div class="card"><div style="font-size:11px;font-weight:700;color:var(--mt);margin-bottom:10px">📈 Активность за неделю</div><div class="bars" id="bars"></div><div style="display:flex;gap:4px;margin-top:2px" id="blbls"></div></div>
+    <div class="card"><div style="font-size:11px;font-weight:700;color:var(--mt);margin-bottom:8px">📊 ЕНТ прогресс</div>
+      <div style="font-size:32px;font-weight:900;letter-spacing:-2px;color:var(--gold)" id="ent-pct-big">0%</div>
+      <div style="font-size:11px;color:var(--mt)" id="ent-detail">0 верно из 0 вопросов</div>
+      <div style="height:4px;border-radius:99px;background:var(--brd);margin-top:10px;overflow:hidden"><div id="ent-prog-bar" style="height:100%;background:var(--gold);border-radius:99px;width:0%;transition:width 1s"></div></div>
+      <div class="hm" id="hm" style="margin-top:14px"></div>
+    </div>
+  </div>
+  <div class="g2" style="margin-bottom:12px">
+    <div class="card">
+      <div style="font-size:11px;font-weight:700;color:var(--mt);margin-bottom:12px">🎯 Слабые темы (требуют внимания)</div>
+      <div id="weak-topics"></div>
+    </div>
+    <div class="card">
+      <div style="font-size:11px;font-weight:700;color:var(--mt);margin-bottom:12px">✅ Сильные темы</div>
+      <div id="strong-topics"></div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card"><div style="font-size:11px;font-weight:700;color:var(--mt);margin-bottom:12px">Результаты модулей</div><div id="tres"></div></div>
+    <div class="card"><div style="font-size:11px;font-weight:700;color:var(--mt);margin-bottom:12px">Статистика ошибок</div><div id="err-stats"></div></div>
+  </div>
+</div>
+
+<!-- SCHEDULE -->
+<div id="p-sched" class="page">
+  <div class="ptit">Расписание обучения</div>
+  <div class="psub">Персональный план на неделю. Кликни на задание, чтобы отметить как выполненное.</div>
+  <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center">
+    <button class="btn bc" onclick="buildSched()">🔄 Обновить план</button>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:7px;font-size:11px;color:var(--mt)">
+      <span style="width:6px;height:6px;border-radius:50%;background:var(--chem);display:inline-block"></span>Химия
+      <span style="width:6px;height:6px;border-radius:50%;background:var(--bio);display:inline-block"></span>Биология
+      <span style="width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block"></span>Повторение
+    </div>
+  </div>
+  <div id="sched"></div>
+</div>
+
+<!-- PROFILE -->
+<div id="p-prof" class="page">
+  <div class="ptit">Профиль</div>
+  <div class="psub">Настройки сохраняются автоматически между сессиями.</div>
+  <div class="phdr">
+    <div class="avbig" id="prof-av">А</div>
+    <div style="position:relative;z-index:1;flex:1">
+      <div style="font-size:18px;font-weight:900" id="prof-header-name">Алиш Рахимов</div>
+      <div style="font-size:12px;color:var(--mt);margin-top:2px" id="prof-header-grade">9 класс · Алматы · Школа №15</div>
+      <div style="font-size:10.5px;color:var(--dim);margin-top:1px;font-family:var(--mono)" id="prof-header-email">alish.rakhimov@school15.kz</div>
+      <div class="pbadges" id="prof-badges"></div>
+    </div>
+    <div style="position:relative;z-index:1;text-align:right">
+      <div class="lic"><div class="lic-dot"></div>School License: Active</div>
+    </div>
+  </div>
+  <div class="stsec"><div class="sthd">👤 Личные данные</div>
+    <div class="strow"><div><div style="font-size:12px;font-weight:600">Имя</div><div style="font-size:10.5px;color:var(--mt)">Отображается везде на сайте</div></div><input class="inp" id="pname" placeholder="Твоё имя" style="width:170px" oninput="liveNamePreview(this.value)"></div>
+    <div class="strow"><div><div style="font-size:12px;font-weight:600">Класс</div></div><select class="inp" id="pgrade" style="width:110px" onchange="saveProfile()"><option>7 класс</option><option>8 класс</option><option>9 класс</option><option>10 класс</option><option>11 класс</option></select></div>
+    <div class="strow"><div><div style="font-size:12px;font-weight:600">Город</div></div><input class="inp" id="pcity" placeholder="Алматы" style="width:140px"></div>
+    <div class="strow"><div><div style="font-size:12px;font-weight:600">Цель ЕНТ</div></div><select class="inp" id="pgoal" style="width:130px" onchange="saveProfile()"><option>80+ баллов</option><option>90+ баллов</option><option>95+ баллов</option></select></div>
+  </div>
+  <div class="stsec"><div class="sthd">🤖 AI Настройки</div>
+    <div class="strow">
+      <div><div style="font-size:12px;font-weight:600">Groq API ключ</div><div style="font-size:10.5px;color:var(--mt)">Хранится только в твоём браузере</div></div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <span id="key-status" style="font-size:11px;font-weight:700"></span>
+        <button onclick="clearKey()" class="btn bred" style="padding:5px 10px;font-size:11px">Удалить ключ</button>
+      </div>
+    </div>
+    <div class="strow" style="flex-direction:column;align-items:flex-start;gap:8px">
+      <div style="font-size:11px;color:var(--mt)">Новый ключ (получи на <strong>console.groq.com</strong>):</div>
+      <div style="display:flex;gap:6px;width:100%">
+        <input id="prof-key-inp" type="password" placeholder="gsk_..." class="inp" style="flex:1;font-family:var(--mono);font-size:11.5px">
+        <button onclick="saveKeyFromProfile()" class="btn bc" style="padding:7px 14px">Сохранить</button>
+      </div>
+    </div>
+  </div>
+    <div class="strow"><div><div style="font-size:12px;font-weight:600">Тема оформления</div><div style="font-size:10.5px;color:var(--mt)">Тёмная / Светлая</div></div><div class="tog on" id="theme-tog" onclick="toggleTheme()"></div></div>
+  </div>
+  <div class="stsec"><div class="sthd">🔔 Уведомления</div>
+    <div class="strow"><div><div style="font-size:12px;font-weight:600">Ежедневное напоминание</div></div><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="strow"><div><div style="font-size:12px;font-weight:600">Напоминание о серии</div></div><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+  </div>
+  <div class="stsec"><div class="sthd">📊 Мой прогресс</div>
+    <div class="strow"><div><div style="font-size:12px;font-weight:600">Пройдено модулей</div></div><span style="font-size:13px;font-weight:800;color:var(--chem)" id="prof-mods">0/8</span></div>
+    <div class="strow"><div><div style="font-size:12px;font-weight:600">Вопросов ЕНТ решено</div></div><span style="font-size:13px;font-weight:800;color:var(--gold)" id="prof-ent">0</span></div>
+    <div class="strow"><div><div style="font-size:12px;font-weight:600">Накопленных ошибок</div></div><span style="font-size:13px;font-weight:800;color:var(--red)" id="prof-err">0</span></div>
+    <div class="strow"><div><div style="font-size:12px;font-weight:600">Серия дней</div></div><span style="font-size:13px;font-weight:800;color:var(--gold)" id="prof-streak">0 🔥</span></div>
+  </div>
+  <div style="display:flex;gap:8px;margin-top:6px">
+    <button class="btn bc" onclick="saveProfile()">💾 Сохранить</button>
+    <button class="btn bred" onclick="resetAll()">🗑 Сбросить весь прогресс</button>
+  </div>
+</div>
+</main>
+
+<!-- CHAT -->
+<aside id="cp">
+  <div class="cph">
+    <div class="cptit">🤖 AI Study Buddy <span class="aibadge">Groq AI</span></div>
+    <div class="cpsub">Химия и биология · ЕНТ подготовка</div>
+    <div class="cpstat" id="cp-stat"><div class="cpsdot"></div>Онлайн · llama-3.3-70b</div>
+  </div>
+  <div id="msgs">
+    <div class="msg"><div class="mav ai">🤖</div><div class="bub ai">Привет! 👋 Я твой AI-репетитор по химии и биологии.<br><br>Объясню любую тему, помогу разобрать ошибки из ЕНТ и составлю план подготовки. Спрашивай!</div></div>
+  </div>
+  <div class="cpchips">
+    <div class="cpclbl">Быстрые вопросы</div>
+    <button class="cpchip" onclick="sp('Объясни мои слабые темы и как их улучшить')">🎯 Разбери мои слабые темы</button>
+    <button class="cpchip" onclick="sp('Объясни фотосинтез простыми словами')">💡 Объясни фотосинтез просто</button>
+    <button class="cpchip" onclick="sp('Какие ловушки чаще всего встречаются в ЕНТ по химии?')">🪤 Ловушки в ЕНТ по химии</button>
+    <button class="cpchip" onclick="sp('Составь план подготовки к ЕНТ на неделю')">📅 План к ЕНТ на неделю</button>
+  </div>
+  <div class="cpirow">
+    <textarea class="cpinp" id="cinp" rows="1" placeholder="Спроси про химию или биологию..." onkeydown="ck(event)"></textarea>
+    <button class="cpsend" id="csnd" onclick="sm()">➤</button>
+  </div>
+  <!-- API KEY ROW — показывается только если ключа нет -->
+  <div id="key-row" style="padding:8px 12px;border-top:1px solid var(--brd);display:none;gap:6px;align-items:center;background:rgba(245,158,11,.04)">
+    <div style="flex:1">
+      <div style="font-size:9.5px;font-weight:700;color:var(--gold);margin-bottom:4px;font-family:var(--mono);letter-spacing:.5px">GROQ API KEY</div>
+      <input id="groq-key-inp" type="password" placeholder="gsk_..." autocomplete="off"
+        style="width:100%;background:var(--card3);border:1px solid rgba(245,158,11,.3);border-radius:7px;padding:6px 10px;font-size:11.5px;color:var(--tx);font-family:var(--mono);outline:none"
+        onkeydown="if(event.key==='Enter')saveKey()">
+    </div>
+    <button onclick="saveKey()" style="padding:7px 12px;background:var(--gold);color:#0F172A;border:none;border-radius:7px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0">Сохранить</button>
+  </div>
+</aside>
+</div>
+
+<!-- MODAL -->
+<div id="ov" onclick="clov(event)">
+  <div id="mb">
+    <div class="mh"><div><div class="mhtit" id="mtit">—</div><div class="mhsub" id="msub">—</div></div><div class="mcls" onclick="clm()">✕</div></div>
+    <div class="mbody" id="mbody"></div>
+  </div>
+</div>
+<script>
+// ══════════════════════════════════════════════
+//  STATE — всё в localStorage
+// ══════════════════════════════════════════════
+const DEF = {
+  theme:'dark', streak:0, streak_rec:0, hours:0, hours_today:0,
+  cards:0, last_date:'',
+  profile_name:'Алиш Рахимов',
+  profile_grade:'9 класс',
+  profile_goal:'90+ баллов',
+  profile_city:'Алматы',
+  mod_scores:{},
+  ent_answers:{},
+  errors:[],
+  fc_progress:{},
+  sched_done:{},
+  activity:[]
+};
+let S = {...DEF, ...JSON.parse(localStorage.getItem('chemio3')||'{}')};
+// merge nested
+['mod_scores','ent_answers','fc_progress','sched_done'].forEach(k=>{ if(!S[k])S[k]={}; });
+if(!S.errors)S.errors=[];if(!S.activity)S.activity=[];
+const sv = () => localStorage.setItem('chemio3', JSON.stringify(S));
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  applyTheme(S.theme);
+  applyProfileToUI();
+  checkStreak();
+  updateDashboard();
+  buildActivityFeed();
+  buildBars();
+  buildHM();
+  buildSched();
+  iFC();
+  renderErrors();
+  renderEntList('all');
+  updateModBadges();
+  updateAnalytics();
+  updateProfile();
+  setTimeout(updateAITip, 800);
+  initChatKey();
+});
+
+// ══════════════════════════════════════════════
+//  THEME
+// ══════════════════════════════════════════════
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme', t);
+  const ico = document.getElementById('theme-ico');
+  const lbl = document.getElementById('theme-lbl');
+  const tog = document.getElementById('theme-tog');
+  if(ico) ico.textContent = t==='dark'?'🌙':'☀️';
+  if(lbl) lbl.textContent = t==='dark'?'Тёмная тема':'Светлая тема';
+  if(tog) tog.classList.toggle('on', t==='dark');
+}
+function toggleTheme(){
+  S.theme = S.theme==='dark'?'light':'dark';
+  applyTheme(S.theme); sv();
+}
+
+// ══════════════════════════════════════════════
+//  STREAK
+// ══════════════════════════════════════════════
+function checkStreak(){
+  const today = new Date().toDateString();
+  if(S.last_date === today) return;
+  const yesterday = new Date(Date.now()-86400000).toDateString();
+  if(S.last_date === yesterday){ S.streak++; }
+  else if(S.last_date && S.last_date !== today){ S.streak = 1; }
+  else if(!S.last_date){ S.streak = 1; }
+  S.last_date = today;
+  if(S.streak > S.streak_rec) S.streak_rec = S.streak;
+  sv();
+}
+
+// ══════════════════════════════════════════════
+//  NAV
+// ══════════════════════════════════════════════
+function go(pg, el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p-'+pg).classList.add('on');
+  document.querySelectorAll('.nav').forEach(n=>n.classList.remove('on'));
+  if(el) el.classList.add('on');
+  if(pg==='an') updateAnalytics();
+  if(pg==='errors') renderErrors();
+  if(pg==='ent') renderEntList(window._entFilter||'all');
+  if(pg==='prof') updateProfile();
+}
+function stab(s){
+  document.getElementById('tc').className='tab'+(s==='c'?' tc':'');
+  document.getElementById('tb').className='tab'+(s==='b'?' tb':'');
+  document.getElementById('cm').style.display=s==='c'?'grid':'none';
+  document.getElementById('bm').style.display=s==='b'?'grid':'none';
+}
+
+// ══════════════════════════════════════════════
+//  DASHBOARD
+// ══════════════════════════════════════════════
+function updateDashboard(){
+  document.getElementById('tdate').textContent =
+    new Date().toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('ds').textContent = S.streak;
+  document.getElementById('ds-rec').textContent = 'Рекорд: '+S.streak_rec;
+  document.getElementById('dh').textContent = S.hours.toFixed(1);
+  document.getElementById('dh-sub').textContent = 'Сегодня: '+S.hours_today.toFixed(1)+' ч';
+  document.getElementById('dc').textContent = S.cards;
+  document.getElementById('dc-sub').textContent = 'Ошибок: '+S.errors.length;
+  // ENT readiness
+  const entTotal = ENT_BANK.length;
+  const entCorrect = Object.values(S.ent_answers).filter(a=>a.correct).length;
+  const entPct = entTotal>0 ? Math.round(entCorrect/entTotal*100) : 0;
+  document.getElementById('dent').textContent = entPct+'%';
+  document.getElementById('dent-sub').textContent = `${entCorrect}/${entTotal} вопросов`;
+  // Rings
+  const chemMods = ['per','org','rxn','acid'];
+  const bioMods = ['dna','pht','gen','cell'];
+  const chemDone = chemMods.filter(m=>S.mod_scores[m]>=60).length;
+  const bioDone = bioMods.filter(m=>S.mod_scores[m]>=60).length;
+  const chemPct = Math.round(chemDone/chemMods.length*100);
+  const bioPct = Math.round(bioDone/bioMods.length*100);
+  setRing('chem', chemPct);
+  setRing('bio', bioPct);
+  document.getElementById('chem-prog-txt').textContent =
+    chemDone===0 ? 'Начни изучение модулей!' : `${chemDone} из ${chemMods.length} тем пройдено`;
+  document.getElementById('bio-prog-txt').textContent =
+    bioDone===0 ? 'Начни изучение модулей!' : `${bioDone} из ${bioMods.length} тем пройдено`;
+}
+function setRing(id, pct){
+  const circ = 201;
+  const offset = circ - (circ * pct / 100);
+  const el = document.getElementById('rc-'+id);
+  if(el){ el.style.strokeDashoffset = offset; el.style.transition = 'stroke-dashoffset 1s ease'; }
+  const lbl = document.getElementById('rp-'+id);
+  if(lbl) lbl.textContent = pct+'%';
+}
+
+function buildActivityFeed(){
+  const feed = document.getElementById('activity-feed');
+  if(!feed) return;
+  const items = S.activity.slice(-5).reverse();
+  if(items.length === 0){
+    feed.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mt);font-size:12px">Начни учиться — активность появится здесь!</div>';
+    return;
+  }
+  feed.innerHTML = items.map(a=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 13px;background:var(--card);border:1px solid var(--brd);border-radius:9px">
+      <span style="font-size:15px">${a.ico||'📌'}</span>
+      <div style="flex:1"><div style="font-size:12px;font-weight:700">${esc(a.text)}</div><div style="font-size:10.5px;color:var(--mt)">${a.date}</div></div>
+      ${a.score!==undefined?`<span class="chip" style="background:var(--chem-d);color:var(--chem)">${a.score}</span>`:''}
+    </div>`).join('');
+}
+function addActivity(ico, text, score){
+  S.activity.push({ico,text,score,date:new Date().toLocaleString('ru-RU',{hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'})});
+  if(S.activity.length>50) S.activity.shift();
+  sv();
+}
+
+function updateAITip(){
+  const tips = [
+    '💡 Сегодня порекомендую начать с твоих ошибок в ЕНТ — это самый быстрый путь к росту!',
+    '🎯 Фокусируйся на слабых темах — 20% усилий дадут 80% результата.',
+    '🔥 Серия дней — лучший предиктор успеха на ЕНТ. Занимайся хотя бы 20 минут каждый день!',
+    '🧠 Флэш-карточки лучше всего работают перед сном — мозг закрепляет во время сна.',
+    '⚗️ В ЕНТ по химии чаще всего попадаются задания на расстановку коэффициентов и валентность.',
+  ];
+  const errCount = S.errors.length;
+  let tip = errCount > 0
+    ? `🎯 У тебя ${errCount} ошибок. Рекомендую повторить: ${[...new Set(S.errors.map(e=>e.topic))].slice(0,2).join(', ')}!`
+    : tips[Math.floor(Math.random()*tips.length)];
+  const el = document.getElementById('ai-tip');
+  if(el) el.textContent = tip;
+}
+
+// ══════════════════════════════════════════════
+//  MODULE DATA
+// ══════════════════════════════════════════════
+const MODS = {
+  per:{title:'Периодическая таблица',sub:'Химия · 9 класс',color:'var(--chem)',topic:'Химия',
+    th:[
+      {h:'Закон Менделеева',t:'Свойства элементов <strong>периодически повторяются</strong> при увеличении атомного номера. Менделеев 1869 г. Порядок определяют протоны, не масса!'},
+      {h:'Группы и периоды',t:'<strong>Период</strong> — горизонтальный ряд (номер = число уровней). <strong>Группа</strong> — столбец. В главной группе валентных e⁻ = номеру группы → похожие свойства.'},
+      {h:'Электронная конфигурация',t:'Na(№11): <code>1s²2s²2p⁶3s¹</code> — 1 внешний e⁻ → металл. Cl(№17): <code>...3s²3p⁵</code> — 7 e⁻, не хватает 1 → неметалл. Запомни: номер группы = валентных e⁻.'}
+    ],
+    qz:[
+      {q:'Что определяет положение элемента в таблице?',o:['Атомная масса','Число нейтронов','Атомный номер (протоны)','Масса ядра'],c:2,e:'Атомный номер = числу протонов. У изотопов масса разная, но атомный номер одинаков → положение одно.'},
+      {q:'Сколько валентных e⁻ у серы (группа VIA)?',o:['2','4','6','8'],c:2,e:'Главная группа VIA → 6 валентных e⁻. Конфигурация: ...3s²3p⁴. Валентности: II, IV, VI.'},
+      {q:'Почему Li, Na, K похожи химически?',o:['Одинаковая масса','Одинаковый цвет','Группа IA — по 1 внешнему e⁻','В одном периоде'],c:2,e:'Все в группе IA → 1 валентный e⁻. Легко отдают → M⁺. Отсюда: реакция с водой, мягкость, низкая Tпл.'}
+    ]},
+  org:{title:'Органические соединения',sub:'Химия · 10 класс',color:'var(--gold)',topic:'Химия',
+    th:[
+      {h:'Углерод — основа органики',t:'C образует <strong>4 связи</strong> и цепочки. Метан <code>CH₄</code> — простейший. Глюкоза <code>C₆H₁₂O₆</code> — топливо клетки (~38 АТФ при окислении).'},
+      {h:'Алканы, Алкены, Алкины',t:'<strong>Алканы CₙH₂ₙ₊₂</strong>: C–C. Бутан C₄H₁₀ (зажигалки).<br><strong>Алкены CₙH₂ₙ</strong>: C=C. Этилен C₂H₄ → пластик.<br><strong>Алкины CₙH₂ₙ₋₂</strong>: C≡C. Ацетилен — сварка (>3000°C).'},
+      {h:'Реакции и изомерия',t:'<strong>Замещение</strong> — у алканов. <strong>Присоединение</strong> — по π-связи. <strong>Горение</strong>: → CO₂+H₂O. <strong>Изомеры</strong>: одна формула, разные структуры. Бутан C₄H₁₀ — 2 изомера.'}
+    ],
+    qz:[
+      {q:'Формула алканов?',o:['CₙH₂ₙ','CₙH₂ₙ₊₂','CₙH₂ₙ₋₂','CₙH₂ₙ₋₆'],c:1,e:'CₙH₂ₙ₊₂ — насыщенные, нет π-связей. Метан CH₄(n=1), пентан C₅H₁₂(n=5).'},
+      {q:'Ацетилен C₂H₂ — это:',o:['Алкан','Алкен','Алкин','Арен'],c:2,e:'Тройная C≡C → алкин. CₙH₂ₙ₋₂. Применение: сварка (>3000°C), производство ПВХ.'},
+      {q:'Глюкоза выделяет энергию при:',o:['Замещении','Изомеризации','Полимеризации','Окислении'],c:3,e:'C₆H₁₂O₆+6O₂→6CO₂+6H₂O+2870 кДж. Митохондрии → ~38 АТФ на молекулу глюкозы.'}
+    ]},
+  rxn:{title:'Химические реакции',sub:'Химия · 8 класс',color:'var(--blue)',topic:'Химия',
+    th:[
+      {h:'4 типа реакций',t:'<strong>Соединение</strong>: A+B→AB. <strong>Разложение</strong>: AB→A+B. <strong>Замещение</strong>: A+BC→AC+B. <strong>Обмен</strong>: AB+CD→AD+CB. Нейтрализация = обмен.'},
+      {h:'Закон сохранения массы',t:'<strong>Масса до = масса после.</strong> Коэффициенты ставь перед формулами. Индексы (H₂O) не меняй! 2H₂+O₂→2H₂O: 4H,2O с обеих сторон ✓'},
+      {h:'Скорость и катализатор',t:'+10°C → скорость ×2–4 (правило Вант-Гоффа). <strong>Катализатор</strong> снижает E активации, не расходуясь. Ферменты — биокатализаторы, ускоряют в 10⁶–10¹² раз.'}
+    ],
+    qz:[
+      {q:'Fe+CuSO₄→FeSO₄+Cu — тип?',o:['Соединение','Разложение','Замещение','Обмен'],c:2,e:'Fe вытесняет Cu из соли → замещение. Fe активнее Cu в ряду активности металлов.'},
+      {q:'Расставить: _H₂+_O₂→_H₂O',o:['1,1,1','2,1,2','1,2,2','2,2,1'],c:1,e:'2H₂+O₂→2H₂O. 4H,2O слева = 4H,2O справа. Реакция водородного двигателя!'},
+      {q:'Катализатор:',o:['Расходуется','Снижает T','Снижает E активации без расхода','Меняет продукты'],c:2,e:'Создаёт альтернативный путь с меньшей E активации. Не расходуется! Фермент каталаза: 200 000 молекул H₂O₂/сек.'}
+    ]},
+  acid:{title:'Кислоты и основания',sub:'Химия · 9 класс',color:'var(--red)',topic:'Химия',
+    th:[
+      {h:'pH и индикаторы',t:'<strong>pH=7</strong> — нейтральная среда. pH<7 — кислая, pH>7 — щелочная. Лакмус: красный в кислоте, синий в щёлочи. Фенолфталеин: бесцвет→малиновый в щёлочи. Желудочный сок: pH≈2, кровь: pH≈7.4.'},
+      {h:'Сильные и слабые',t:'<strong>Сильные кислоты</strong>: HCl, H₂SO₄, HNO₃ — полностью диссоциируют. <strong>Слабые</strong>: H₂CO₃, CH₃COOH — частично. <strong>Нейтрализация</strong>: кислота+основание→соль+вода. HCl+NaOH→NaCl+H₂O.'},
+      {h:'Оксиды и гидроксиды',t:'Основные оксиды (металлов) + вода → щёлочи: Na₂O+H₂O→2NaOH. Кислотные оксиды (неметаллов) + вода → кислоты: SO₃+H₂O→H₂SO₄. Амфотерные — реагируют с обоими: Al(OH)₃.'}
+    ],
+    qz:[
+      {q:'pH желудочного сока примерно:',o:['7','10','2','5'],c:2,e:'Желудочный сок содержит HCl → pH≈1.5-3.5 (очень кислый). Это необходимо для переваривания белков и уничтожения бактерий.'},
+      {q:'HCl + NaOH → ?',o:['H₂+NaCl','NaCl+H₂O','NaOH₂+Cl','Нет реакции'],c:1,e:'Реакция нейтрализации: кислота+основание→соль+вода. HCl+NaOH→NaCl+H₂O. Обмен: H⁺+OH⁻→H₂O.'},
+      {q:'Лакмус в щёлочи стал:',o:['Красным','Синим','Бесцветным','Малиновым'],c:1,e:'Лакмус: красный в кислоте (pH<7), синий в нейтральной и щелочной среде. Фенолфталеин малиновый в щёлочи — другой индикатор!'}
+    ]},
+  dna:{title:'Репликация ДНК',sub:'Биология · 10 класс',color:'var(--bio)',topic:'Биология',
+    th:[
+      {h:'Структура ДНК',t:'<strong>Двойная спираль</strong> нуклеотидов. Длина в клетке — <strong>2 метра</strong>. Нуклеотид: основание+дезоксирибоза+фосфат. 4 основания: A, T, G, C.'},
+      {h:'Комплементарность',t:'<code>A=T</code> (2 водородные связи), <code>G≡C</code> (3 связи). Правило Чаргаффа: A%=T%, G%=C%. Знаешь одну цепь → можешь написать другую!'},
+      {h:'Ход репликации',t:'1. <strong>Хеликаза</strong> раскручивает (~1000 пар/сек).<br>2. <strong>ДНК-полимераза</strong> синтезирует по матрице.<br>3. <strong>Лигаза</strong> сшивает. Принцип: <strong>полуконсервативный</strong> — 1 старая + 1 новая цепь.'}
+    ],
+    qz:[
+      {q:'Фермент, раскручивающий ДНК?',o:['ДНК-полимераза','РНК-полимераза','Хеликаза','Лигаза'],c:2,e:'Хеликаза разрывает водородные связи → вилка репликации. ДНК-полимераза синтезирует. Лигаза сшивает фрагменты Оказаки.'},
+      {q:'Что комплементарно G в ДНК?',o:['Аденин','Тимин','Цитозин','Урацил'],c:2,e:'G↔C (3 связи), A↔T (2 связи). Урацил — в РНК, не в ДНК. Там он заменяет тимин.'},
+      {q:'«Полуконсервативная» — это:',o:['Копируется половина','1 старая + 1 новая цепь','Старые разрушаются','Только новые'],c:1,e:'Мезельсон–Сталь (1958): в каждой дочерней ДНК — одна матерная + одна новая цепь. Доказано с ¹⁵N.'}
+    ]},
+  pht:{title:'Фотосинтез',sub:'Биология · 9 класс',color:'var(--green)',topic:'Биология',
+    th:[
+      {h:'Уравнение',t:'<code>6CO₂+6H₂O+свет→C₆H₁₂O₆+6O₂</code>. В хлоропластах. <strong>Хлорофилл</strong> поглощает красный (~680нм) и синий (~430нм), не зелёный → листья зелёные! Весь O₂ атмосферы — продукт фотосинтеза.'},
+      {h:'Световая фаза',t:'В <strong>тилакоидах</strong>. Фотон → возбуждённый e⁻ → цепь переноса → синтез <strong>АТФ</strong> и НАДФН. Фотолиз воды: 2H₂O→4H⁺+4e⁻+O₂. Кислород — побочный продукт!'},
+      {h:'Цикл Кальвина',t:'В <strong>строме</strong>. CO₂ фиксируется ферментом <strong>Рубиско</strong> (самый распространённый белок Земли). CO₂+АТФ+НАДФН→глюкоза. 3 оборота: 3CO₂→G3P→C₆H₁₂O₆.'}
+    ],
+    qz:[
+      {q:'Где световая фаза?',o:['Строма хлоропласта','Митохондрии','Тилакоиды','Ядро клетки'],c:2,e:'Тилакоиды — мембранные структуры с фотосистемами I и II. Строма — место цикла Кальвина (тёмной фазы).'},
+      {q:'Откуда O₂ при фотосинтезе?',o:['Из CO₂','Из воды H₂O','Из глюкозы','Из АТФ'],c:1,e:'2H₂O→4H⁺+4e⁻+O₂. Фотолиз воды в световой фазе. O₂ — побочный продукт, не цель фотосинтеза!'},
+      {q:'Продукт цикла Кальвина?',o:['O₂','АТФ','Глюкоза','НАДФН'],c:2,e:'Цикл Кальвина: CO₂+АТФ+НАДФН→глюкоза. O₂, АТФ и НАДФН — продукты световой фазы.'}
+    ]},
+  gen:{title:'Основы генетики',sub:'Биология · 10 класс',color:'var(--pink)',topic:'Биология',
+    th:[
+      {h:'Законы Менделя',t:'<strong>1-й</strong>: F1 единообразны (AA×aa→Aa). <strong>2-й</strong>: F2 = 3:1 (Aa×Aa: 25%AA,50%Aa,25%aa). <strong>3-й</strong>: гены разных хромосом наследуются независимо.'},
+      {h:'Решётка Пеннета',t:'AA — доминантная гомозигота. Aa — гетерозигота. aa — рецессивная. <strong>Задача</strong>: Aa×Aa. Гаметы: A,a × A,a. Потомки: AA, Aa, Aa, aa = 3 домин. : 1 рецесс.'},
+      {h:'Мутации',t:'<strong>Генные</strong>: 1 нуклеотид (серповидноклеточная анемия). <strong>Хромосомные</strong>: делеция, инверсия. <strong>Геномные</strong>: трисомия — синдром Дауна (47 хромосом вместо 46).'}
+    ],
+    qz:[
+      {q:'Вероятность aa при Aa×Aa?',o:['100%','50%','25%','75%'],c:2,e:'Aa×Aa: AA(25%), Aa(50%), aa(25%). Рецессивный фенотип = aa = 25%. Соотношение 3:1 — 2-й закон Менделя.'},
+      {q:'Генотип — это:',o:['Внешние признаки','Все гены организма','Только доминантные','Число хромосом'],c:1,e:'Генотип = совокупность всех генов. Фенотип = признаки (генотип + среда). Однояйцевые близнецы: одинаковый генотип, разный фенотип из-за среды.'},
+      {q:'Синдром Дауна — пример:',o:['Генной мутации','Хромосомной (делеция)','Геномной (трисомия)','Модификационной'],c:2,e:'Трисомия 21-й хромосомы — 47 хромосом. Геномная мутация. Причина: нерасхождение при мейозе. Частота 1:700–1000.'}
+    ]},
+  cell:{title:'Строение клетки',sub:'Биология · 8 класс',color:'var(--gold)',topic:'Биология',
+    th:[
+      {h:'Прокариоты и эукариоты',t:'<strong>Прокариоты</strong>: нет ядра (бактерии, археи). <strong>Эукариоты</strong>: есть ядро с ДНК (животные, растения, грибы). Главное отличие — наличие мембранного ядра!'},
+      {h:'Органеллы эукариот',t:'<strong>Митохондрия</strong>: АТФ (дыхание). <strong>Хлоропласт</strong>: фотосинтез. <strong>Рибосома</strong>: синтез белка. <strong>ЭПС</strong>: транспорт. <strong>Аппарат Гольджи</strong>: модификация и упаковка веществ.'},
+      {h:'Клеточная мембрана',t:'<strong>Фосфолипидный бислой</strong> с белками. Функции: избирательная проницаемость, рецепция, транспорт. <strong>Диффузия</strong> — пассивный транспорт (по градиенту). <strong>Активный транспорт</strong> — против градиента, с АТФ.'}
+    ],
+    qz:[
+      {q:'Органелла синтеза белка?',o:['Митохондрия','Хлоропласт','Рибосома','Аппарат Гольджи'],c:2,e:'Рибосома — органелла трансляции (синтеза белка). У эукариот 80S, у прокариот 70S. Находится в цитоплазме и на ЭПС.'},
+      {q:'Главное отличие эукариот от прокариот?',o:['Размер','Наличие мембранного ядра','Наличие рибосом','Тип ДНК'],c:1,e:'Ядро с мембраной — ключевой признак эукариот. Рибосомы есть у всех. Прокариоты: ДНК в цитоплазме (нуклеоид).'},
+      {q:'Какой транспорт требует АТФ?',o:['Диффузия','Осмос','Активный транспорт','Пассивный'],c:2,e:'Активный транспорт — против градиента концентрации, тратит АТФ. Пример: натрий-калиевый насос. Диффузия и осмос — пассивные, без АТФ.'}
+    ]},
+};
+
+// ══════════════════════════════════════════════
+//  ENT BANK
+// ══════════════════════════════════════════════
+const ENT_BANK = [
+  // ХИМИЯ
+  {id:'e1',year:'ЕНТ 2023',subj:'chem',topic:'Периодическая система',trap:false,
+   q:'Атом элемента имеет электронную конфигурацию 1s²2s²2p⁶3s²3p⁵. Это элемент:',
+   o:['Сера','Хлор','Аргон','Фосфор'],c:1,
+   e:'7 e⁻ на внешнем уровне (3s²3p⁵) → группа VIIA. Период 3. Хлор Cl(№17). Сера — 3s²3p⁴(6 e⁻), Аргон — 3s²3p⁶(8 e⁻).'},
+  {id:'e2',year:'ЕНТ 2022',subj:'chem',topic:'Периодическая система',trap:true,
+   q:'🪤 Элемент №20 стоит в III периоде таблицы Менделеева? Верно ли это?',
+   o:['Да, верно','Нет — он в IV периоде','Нет — он во II периоде','Нет — он в V периоде'],c:1,
+   e:'ЛОВУШКА! Элемент №20 — Кальций Ca. Конфигурация: 1s²2s²2p⁶3s²3p⁶4s² → 4 уровня → IV период! Не путай номер элемента и период.'},
+  {id:'e3',year:'ЕНТ 2023',subj:'chem',topic:'Химические реакции',trap:false,
+   q:'Какой объём H₂ выделится при реакции 0.5 моль Zn с HCl (н.у.)?',
+   o:['5.6 л','11.2 л','22.4 л','2.8 л'],c:1,
+   e:'Zn+2HCl→ZnCl₂+H₂. 1 моль Zn → 1 моль H₂. 0.5 моль Zn → 0.5 моль H₂. V = 0.5×22.4 = 11.2 л при н.у.'},
+  {id:'e4',year:'ЕНТ 2021',subj:'chem',topic:'Органическая химия',trap:true,
+   q:'🪤 Этилен C₂H₄ относится к насыщенным углеводородам?',
+   o:['Да, насыщенный','Нет — ненасыщенный (алкен)','Нет — это алкин','Нет — это арен'],c:1,
+   e:'ЛОВУШКА! Этилен = алкен (CₙH₂ₙ). Двойная связь C=C → ненасыщенный. Насыщенные = алканы (CₙH₂ₙ₊₂): все одинарные связи. Не путай!'},
+  {id:'e5',year:'ЕНТ 2022',subj:'chem',topic:'Кислоты и основания',trap:false,
+   q:'В реакции нейтрализации H₂SO₄ + 2NaOH → ? продукты:',
+   o:['Na₂SO₄ + H₂','Na₂SO₄ + 2H₂O','2NaHSO₄ + H₂O','NaS + 2H₂O'],c:1,
+   e:'Нейтрализация: кислота+основание→соль+вода. H₂SO₄+2NaOH→Na₂SO₄+2H₂O. Соль сульфат натрия, 2 молекулы воды.'},
+  {id:'e6',year:'ЕНТ 2023',subj:'chem',topic:'Химические реакции',trap:true,
+   q:'🪤 Катализатор увеличивает выход продукта реакции?',
+   o:['Да, всегда','Нет — он лишь ускоряет реакцию','Да, если реакция обратимая','Нет — он замедляет'],c:1,
+   e:'ЛОВУШКА! Катализатор ТОЛЬКО ускоряет достижение равновесия, но НЕ изменяет выход продукта. Для увеличения выхода нужно: менять T, давление, концентрацию (принцип Ле Шателье).'},
+  {id:'e7',year:'ЕНТ 2021',subj:'chem',topic:'Органическая химия',trap:false,
+   q:'Число изомеров у бутана C₄H₁₀:',
+   o:['1','2','3','4'],c:1,
+   e:'C₄H₁₀ имеет 2 изомера: н-бутан (прямая цепь, Ткип=−0.5°C) и изобутан (разветвлённый, Ткип=−11.7°C). Начиная с C₄ алканы имеют изомеры.'},
+  {id:'e8',year:'ЕНТ 2022',subj:'chem',topic:'Кислоты и основания',trap:true,
+   q:'🪤 Al(OH)₃ является основанием и НЕ реагирует с NaOH?',
+   o:['Верно, не реагирует','Неверно — Al(OH)₃ амфотерен и реагирует с NaOH','Верно — только с кислотами','Неверно — растворяется в воде'],c:1,
+   e:'ЛОВУШКА! Al(OH)₃ — АМФОТЕРНЫЙ гидроксид. Реагирует и с кислотами, и со щелочами: Al(OH)₃+NaOH→Na[Al(OH)₄]. Амфотерные: Al(OH)₃, Zn(OH)₂, Cr(OH)₃.'},
+  // БИОЛОГИЯ
+  {id:'e9',year:'ЕНТ 2023',subj:'bio',topic:'Молекулярная биология',trap:false,
+   q:'Если в цепи ДНК последовательность АТТГЦЦ, то комплементарная цепь:',
+   o:['ТААЦГГ','УААЦЦГ','АТТГЦЦ','ГААТТЦ'],c:0,
+   e:'Правило комплементарности ДНК: A↔T, G↔C. А→Т, Т→А, Т→А, Г→Ц, Ц→Г, Ц→Г. Результат: ТААЦГГ. Урацил (У) — только в РНК!'},
+  {id:'e10',year:'ЕНТ 2022',subj:'bio',topic:'Фотосинтез',trap:true,
+   q:'🪤 Кислород, выделяемый при фотосинтезе, образуется из CO₂?',
+   o:['Да, из CO₂','Нет — из воды H₂O','Нет — из глюкозы','Нет — из АТФ'],c:1,
+   e:'ЛОВУШКА! Кислород образуется при ФОТОЛИЗЕ ВОДЫ: 2H₂O→4H⁺+4e⁻+O₂. Это доказано изотопным методом (¹⁸O). CO₂ используется в цикле Кальвина для синтеза глюкозы.'},
+  {id:'e11',year:'ЕНТ 2021',subj:'bio',topic:'Генетика',trap:false,
+   q:'При скрещивании AaBb × AaBb вероятность генотипа AABB:',
+   o:['25%','6.25%','50%','12.5%'],c:1,
+   e:'По каждому локусу: P(AA)=1/4. P(BB)=1/4. Независимое наследование: P(AABB)=1/4×1/4=1/16=6.25%.'},
+  {id:'e12',year:'ЕНТ 2023',subj:'bio',topic:'Строение клетки',trap:true,
+   q:'🪤 Рибосомы есть только у эукариот?',
+   o:['Да, только у эукариот','Нет — рибосомы есть у всех клеток','Нет — только у прокариот','Нет — только у животных'],c:1,
+   e:'ЛОВУШКА! Рибосомы — универсальная органелла, есть у ВСЕХ клеток. У эукариот — 80S (80S = 60S+40S). У прокариот — 70S (70S = 50S+30S). Отличие именно в размере!'},
+  {id:'e13',year:'ЕНТ 2022',subj:'bio',topic:'Генетика',trap:false,
+   q:'Сколько хромосом в гамете человека?',
+   o:['46','23','48','44'],c:1,
+   e:'Гаметы (яйцеклетка, сперматозоид) образуются при мейозе: 2n→n. У человека 2n=46, значит n=23. После оплодотворения: 23+23=46.'},
+  {id:'e14',year:'ЕНТ 2021',subj:'bio',topic:'Фотосинтез',trap:false,
+   q:'В каком органоиде происходит синтез АТФ в процессе фотосинтеза?',
+   o:['Митохондрия','Рибосома','Хлоропласт','Ядро'],c:2,
+   e:'Синтез АТФ при фотосинтезе — в тилакоидах хлоропласта (световая фаза). В митохондриях АТФ синтезируется при клеточном дыхании — это другой процесс!'},
+  {id:'e15',year:'ЕНТ 2023',subj:'bio',topic:'Молекулярная биология',trap:true,
+   q:'🪤 В молекуле РНК может встречаться тимин?',
+   o:['Да, как и в ДНК','Нет — в РНК вместо тимина урацил','Нет — РНК вообще нет оснований','Да, в рРНК'],c:1,
+   e:'ЛОВУШКА! В РНК тимина НЕТ — вместо него урацил (U). Основания РНК: аденин (A), урацил (U), гуанин (G), цитозин (C). В ДНК: A,T,G,C. Главная разница: Т↔U.'},
+  {id:'e16',year:'ЕНТ 2022',subj:'bio',topic:'Строение клетки',trap:false,
+   q:'Какая органелла содержит собственную ДНК?',
+   o:['Рибосома','Аппарат Гольджи','Митохондрия','Лизосома'],c:2,
+   e:'Митохондрия содержит кольцевую ДНК — признак эндосимбиотического происхождения. Хлоропласт тоже содержит собственную ДНК. Это подтверждает теорию эндосимбиоза.'},
+];
+
+// ══════════════════════════════════════════════
+//  ENT RENDER
+// ══════════════════════════════════════════════
+window._entFilter = 'all';
+window._entOrder = null;
+
+function filterEnt(f, el){
+  window._entFilter = f;
+  document.querySelectorAll('.ent-tag').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  const colors = {chem:'var(--chem)',bio:'var(--bio)',trap:'var(--red)',wrong:'var(--red)',unseen:'var(--gold)',all:'var(--bio)'};
+  el.style.background = colors[f]||'var(--bio)';
+  renderEntList(f);
+}
+
+function renderEntList(filter){
+  const list = document.getElementById('ent-list');
+  if(!list) return;
+  let items = [...ENT_BANK];
+  if(window._entOrder) items = window._entOrder.map(i=>items[i]);
+  if(filter==='chem') items = items.filter(q=>q.subj==='chem');
+  else if(filter==='bio') items = items.filter(q=>q.subj==='bio');
+  else if(filter==='trap') items = items.filter(q=>q.trap);
+  else if(filter==='wrong') items = items.filter(q=>S.ent_answers[q.id]&&!S.ent_answers[q.id].correct);
+  else if(filter==='unseen') items = items.filter(q=>!S.ent_answers[q.id]);
+  // stats line
+  const total = ENT_BANK.length;
+  const done = Object.keys(S.ent_answers).length;
+  const correct = Object.values(S.ent_answers).filter(a=>a.correct).length;
+  const sl = document.getElementById('ent-stats-line');
+  if(sl) sl.textContent = `Пройдено: ${done}/${total} · Верно: ${correct} · Ошибок: ${done-correct}`;
+  list.innerHTML = items.map(q=>{
+    const ans = S.ent_answers[q.id];
+    const cls = ans ? (ans.correct?'answered-ok':'answered-err') : '';
+    return `<div class="ent-item ${cls} ${q.trap?'trap':''}" id="ei-${q.id}">
+      <div class="ent-year">
+        ${q.year} · ${q.subj==='chem'?'🧪 Химия':'🧬 Биология'} · ${q.topic}
+        ${q.trap?'<span class="trap-badge">🪤 Ловушка</span>':''}
+        ${ans?(ans.correct?'<span style="color:var(--chem);font-weight:800">✓ Верно</span>':'<span style="color:var(--red);font-weight:800">✗ Ошибка</span>'):''}
+      </div>
+      <div class="ent-q">${q.q}</div>
+      <div class="ent-opts" id="eo-${q.id}">
+        ${q.o.map((o,i)=>`<div class="ent-opt ${ans?(i===q.c?'ok':i===ans.chosen?'err':'dis'):''}
+          ${ans?'dis':''}" onclick="ansEnt('${q.id}',${i})">${o}</div>`).join('')}
+      </div>
+      <div class="ent-exp ${ans?'on':''}" id="ee-${q.id}">💡 ${q.e}</div>
+    </div>`;
+  }).join('') || '<div style="text-align:center;padding:30px;color:var(--mt)">Нет вопросов для этого фильтра</div>';
+}
+
+function ansEnt(qid, chosen){
+  const q = ENT_BANK.find(x=>x.id===qid);
+  if(!q || S.ent_answers[qid]) return;
+  const correct = chosen === q.c;
+  S.ent_answers[qid] = {correct, chosen, date: new Date().toISOString()};
+  if(!correct){
+    saveError(q.topic, q.q, q.o[chosen], q.o[q.c], q.e, qid);
+    addActivity('❌', `Ошибка ЕНТ: ${q.topic}`, undefined);
+  } else {
+    addActivity('✅', `Верно: ЕНТ ${q.year} — ${q.topic}`, undefined);
+    notify('✅ Правильно!');
+  }
+  sv();
+  // re-render that item
+  const opts = document.getElementById('eo-'+qid);
+  if(opts){
+    opts.querySelectorAll('.ent-opt').forEach((el,i)=>{
+      el.classList.add('dis');
+      if(i===q.c) el.classList.add('ok');
+      else if(i===chosen) el.classList.add('err');
+    });
+  }
+  const exp = document.getElementById('ee-'+qid);
+  if(exp) exp.classList.add('on');
+  updateDashboard();
+}
+
+function shuffleEnt(){
+  window._entOrder = [...Array(ENT_BANK.length).keys()].sort(()=>Math.random()-.5);
+  renderEntList(window._entFilter);
+  notify('🔀 Перемешано!');
+}
+function resetEntProgress(){
+  if(!confirm('Сбросить весь прогресс ЕНТ?')) return;
+  S.ent_answers = {};
+  sv(); renderEntList(window._entFilter); updateDashboard();
+  notify('↺ Прогресс сброшен');
+}
+
+// ══════════════════════════════════════════════
+//  ERRORS
+// ══════════════════════════════════════════════
+function saveError(topic, q, your, correct, exp, id){
+  const existing = S.errors.findIndex(e=>e.id===id);
+  const err = {id: id||Date.now(), topic, q, your, correct, exp,
+    date: new Date().toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})};
+  if(existing>=0) S.errors[existing] = err; else S.errors.push(err);
+  sv();
+}
+function renderErrors(){
+  const list = document.getElementById('err-list');
+  const cnt = document.getElementById('err-count');
+  if(cnt) cnt.textContent = S.errors.length+' ошибок';
+  if(!list) return;
+  if(S.errors.length===0){
+    list.innerHTML = '<div class="err-empty"><div style="font-size:40px;margin-bottom:12px">🎉</div><div style="font-size:15px;font-weight:800;margin-bottom:6px">Ошибок нет!</div><div style="font-size:12.5px">Реши задания ЕНТ или пройди модули — ошибки появятся здесь.</div></div>';
+    return;
+  }
+  list.innerHTML = [...S.errors].reverse().map(e=>`
+    <div class="err-item">
+      <div class="err-topic">${esc(e.topic)} · ${esc(e.date)}</div>
+      <div class="err-q">${esc(e.q)}</div>
+      <div class="err-ans">
+        <strong>Твой ответ:</strong> ${esc(e.your)}<br>
+        <em>Верный ответ:</em> ${esc(e.correct)}<br>
+        <span style="color:var(--mt)">💡 ${esc(e.exp)}</span>
+      </div>
+    </div>`).join('');
+}
+function clearErrors(){
+  if(!confirm('Очистить все ошибки?')) return;
+  S.errors = []; sv(); renderErrors(); updateDashboard();
+  notify('🗑 Ошибки очищены');
+}
+function retryErrors(){
+  if(S.errors.length===0){ notify('Нет ошибок для повторения'); return; }
+  go('ent', null);
+  window._entFilter = 'wrong';
+  document.querySelectorAll('.ent-tag').forEach(t=>t.classList.remove('on'));
+  renderEntList('wrong');
+}
+
+// ══════════════════════════════════════════════
+//  MODULE MODAL
+// ══════════════════════════════════════════════
+let CQ = {id:null,ans:[],qi:0};
+function openM(id){
+  const m = MODS[id]; CQ = {id,ans:[],qi:0};
+  document.getElementById('mtit').textContent = m.title;
+  document.getElementById('msub').textContent = m.sub;
+  document.getElementById('mbody').innerHTML = buildM(m,id);
+  document.getElementById('ov').classList.add('on');
+}
+function buildM(m,id){
+  const c=m.color;
+  let h=`<div class="thcards">`;
+  m.th.forEach((t,i)=>{ h+=`<div class="thcard"><div class="thnum" style="color:${c}">📖 ${i+1}. ${t.h}</div><div class="thtxt">${t.t}</div></div>`; });
+  h+=`</div><div class="qzsec"><div style="font-size:13px;font-weight:800;margin-bottom:12px;color:${c}">🧠 Мини-тест (3 вопроса)</div><div class="qdots">`;
+  m.qz.forEach((_,i)=>{ h+=`<div class="qd${i===0?' cur':''}" id="qd${id}${i}"></div>`; });
+  h+=`</div><div id="qzc${id}">`;
+  m.qz.forEach((q,qi)=>{
+    h+=`<div class="qq" id="qq${id}${qi}" style="${qi>0?'display:none':''}"><div class="qqtxt">${qi+1}. ${q.q}</div><div class="qopts">`;
+    q.o.forEach((o,oi)=>{ h+=`<div class="qopt" id="qo${id}${qi}${oi}" onclick="ansM('${id}',${qi},${oi})">${o}</div>`; });
+    h+=`</div><div class="qexp" id="qe${id}${qi}">💡 ${q.e}</div></div>`;
+  });
+  h+=`</div><div class="qres" id="qr${id}"></div></div>`;
+  return h;
+}
+function ansM(id,qi,oi){
+  const m=MODS[id],correct=m.qz[qi].c;
+  document.querySelectorAll(`#qq${id}${qi} .qopt`).forEach(o=>o.classList.add('dis'));
+  const ch=document.getElementById(`qo${id}${qi}${oi}`);
+  const ok = oi===correct;
+  ch.classList.add(ok?'ok':'err');
+  if(!ok){
+    document.getElementById(`qo${id}${qi}${correct}`).classList.add('ok');
+    CQ.ans.push(false);
+    saveError(m.topic, m.qz[qi].q, m.qz[qi].o[oi], m.qz[qi].o[correct], m.qz[qi].e, `${id}_${qi}`);
+  } else { CQ.ans.push(true); }
+  document.getElementById(`qe${id}${qi}`).classList.add('on');
+  document.getElementById(`qd${id}${qi}`).className='qd '+(ok?'ok':'err');
+  setTimeout(()=>{
+    if(qi+1<m.qz.length){
+      document.getElementById(`qq${id}${qi}`).style.display='none';
+      document.getElementById(`qq${id}${qi+1}`).style.display='block';
+      const nd=document.getElementById(`qd${id}${qi+1}`);if(nd)nd.classList.add('cur');
+    } else showR(id);
+  },1600);
+}
+function showR(id){
+  const score=CQ.ans.filter(Boolean).length,pct=Math.round(score/3*100);
+  if(!S.mod_scores[id]||S.mod_scores[id]<pct){ S.mod_scores[id]=pct; }
+  if(score===3){ S.cards=Math.min(S.cards+3,999); }
+  S.hours = +(S.hours+0.3).toFixed(1);
+  S.hours_today = +(S.hours_today+0.3).toFixed(1);
+  addActivity(pct===100?'🏆':pct>=66?'✅':'📖', `Тест "${MODS[id].title}" — ${score}/3`, `${pct}%`);
+  sv();
+  const col=pct===100?'var(--chem)':pct>=66?'var(--gold)':'var(--red)';
+  document.getElementById(`qzc${id}`).style.display='none';
+  const r=document.getElementById(`qr${id}`);
+  r.innerHTML=`<div class="qremo">${pct===100?'🏆':pct>=66?'🎉':'📚'}</div>
+    <div class="qrtit">${pct===100?'Блестяще!':pct>=66?'Молодец!':'Стоит повторить'}</div>
+    <div class="qrscore" style="color:${col}">${score}/3</div>
+    <div class="qrsub">${pct===100?'Все верно! +3 карточки':'Ошибки сохранены — повторим позже.'}</div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:14px">
+      <button class="btn bgh" onclick="openM('${id}')">Снова</button>
+      <button class="btn" style="background:${col};color:#fff;border:none" onclick="clm();updateDashboard();updateModBadges()">Готово</button>
+    </div>`;
+  r.classList.add('on');
+}
+function clm(){ document.getElementById('ov').classList.remove('on'); }
+function clov(e){ if(e.target===document.getElementById('ov'))clm(); }
+
+function updateModBadges(){
+  Object.keys(MODS).forEach(id=>{
+    const sc = S.mod_scores[id];
+    const badge = document.getElementById('ms-'+id);
+    const bar = document.getElementById('mp-'+id);
+    const meta = document.getElementById('mm-'+id);
+    if(badge && sc!==undefined){ badge.textContent = sc+'%'; }
+    if(bar && sc!==undefined){ bar.style.width = sc+'%'; }
+    if(meta && sc!==undefined){ meta.textContent = sc===100?'Завершено':sc+'% пройдено'; }
+  });
+}
+
+// ══════════════════════════════════════════════
+//  FLASHCARDS
+// ══════════════════════════════════════════════
+const DECKS=[
+  {n:'Химия: Формулы',c:'var(--chem)',cards:[
+    {q:'H₂O',a:'Вода — M=18 г/моль, угол 104.5°, полярная, универсальный растворитель'},
+    {q:'C₆H₁₂O₆',a:'Глюкоза — моносахарид. При окислении: +6O₂→6CO₂+6H₂O+~38 АТФ'},
+    {q:'NaCl',a:'Хлорид натрия — ионная решётка, Тпл=801°C, поваренная соль'},
+    {q:'H₂SO₄',a:'Серная кислота — сильная двухосновная. Конц. обугливает органику'},
+    {q:'NH₃',a:'Аммиак — резкий запах. NH₃+H₂O⇌NH₄OH (слабое основание)'},
+    {q:'CH₄',a:'Метан — простейший алкан CₙH₂ₙ₊₂. Природный газ (~95%)'},
+    {q:'CO₂',a:'Углекислый газ. CO₂+H₂O⇌H₂CO₃. Продукт горения и дыхания'},
+    {q:'CaCO₃',a:'Мел, мрамор, известняк. При нагр.: CaCO₃→CaO+CO₂↑'},
+  ]},
+  {n:'Биология: Термины',c:'var(--bio)',cards:[
+    {q:'АТФ',a:'Аденозинтрифосфат — «валюта» энергии. АТФ→АДФ+Фн: ~30 кДж/моль'},
+    {q:'ДНК',a:'Двойная спираль. A=T (2 связи), G≡C (3 связи). Длина в клетке: 2 м'},
+    {q:'Рибосома',a:'Органелла синтеза белка. Эукариоты: 80S. Прокариоты: 70S'},
+    {q:'Митохондрия',a:'«Электростанция» клетки. Двойная мембрана. Синтез АТФ'},
+    {q:'Хлоропласт',a:'Органелла фотосинтеза. Тилакоиды + строма. Содержит ДНК'},
+    {q:'Мейоз',a:'Деление: 2n→n. Образует гаметы. Мейоз I + мейоз II'},
+    {q:'Мутация',a:'Генная (1 нукл.), хромосомная (часть хр.), геномная (число хр.)'},
+    {q:'Хромосомы',a:'У человека 46 = 23 пары. 22 пары аутосом + 1 пара половых'},
+  ]},
+  {n:'ЕНТ: Смешанный',c:'var(--gold)',cards:[
+    {q:'Закон Менделеева',a:'Свойства элементов — периодическая функция атомного номера'},
+    {q:'6CO₂+6H₂O+свет→?',a:'C₆H₁₂O₆+6O₂. Световая — тилакоиды. Тёмная — строма'},
+    {q:'pH нейтральной среды',a:'pH=7 при 25°C. Кислая <7, щелочная >7. Кровь: 7.4'},
+    {q:'Правило Вант-Гоффа',a:'+10°C → скорость реакции в 2–4 раза быстрее'},
+    {q:'Мономеры белков',a:'20 аминокислот. Связь — пептидная –CO–NH–'},
+    {q:'Изотопы',a:'Одинаковые протоны, разные нейтроны. ¹H, ²H(дейтерий), ³H'},
+    {q:'Клеточное дыхание',a:'C₆H₁₂O₆+6O₂→6CO₂+6H₂O+~38АТФ. Гликолиз→Кребс→ОФ'},
+    {q:'Комплементарность ДНК',a:'A↔T (2 связи), G↔C (3 связи). В РНК: A↔U, G↔C'},
+    {q:'Валентность O',a:'Всегда II. Конфигурация: ...2s²2p⁴ — 2 неспаренных e⁻'},
+    {q:'Мейоз vs Митоз',a:'Митоз: 2n→2n (рост). Мейоз: 2n→n (гаметы). 2 деления в мейозе'},
+  ]},
+];
+let fcD=0,fcI=0,fcF=false,fcK=0,fcU=0;
+function iFC(){ loadDeckProgress(); rFC(); rDots(); uFCS(); }
+function loadDeckProgress(){
+  DECKS.forEach((_,i)=>{
+    const p=S.fc_progress[i]||{known:0,unknown:0};
+    const bar=document.getElementById('dp'+i);
+    if(bar) bar.style.width=Math.min(100,Math.round(p.known/(DECKS[i].cards.length)*100))+'%';
+  });
+}
+function selDeck(i,el){
+  document.querySelectorAll('.fdd').forEach(d=>d.classList.remove('sel'));el.classList.add('sel');
+  fcD=i;fcI=0;fcF=false;fcK=0;fcU=0;rFC();rDots();uFCS();
+}
+function rFC(){
+  const d=DECKS[fcD],fc=d.cards[fcI];
+  document.getElementById('ftag').textContent=`${d.n} · ${fcI+1}/${d.cards.length}`;
+  document.getElementById('ftag').style.color=d.c;
+  document.getElementById('fbtag').style.color=d.c;
+  document.getElementById('fq').textContent=fc.q;
+  document.getElementById('fa').textContent=fc.a;
+  document.getElementById('ffront').style.cssText='display:flex;flex-direction:column;align-items:center;width:100%;text-align:center';
+  document.getElementById('fback').style.display='none';
+  document.getElementById('fcbtns').style.display='none';
+  document.getElementById('fccard').style.borderColor='var(--brd)';
+  fcF=false;
+}
+function flip(){
+  if(fcF)return;fcF=true;
+  document.getElementById('ffront').style.display='none';
+  document.getElementById('fback').style.display='block';
+  document.getElementById('fccard').style.borderColor=DECKS[fcD].c;
+  document.getElementById('fcbtns').style.display='flex';
+}
+function nxt(knew){
+  if(knew)fcK++;else fcU++;
+  fcI=(fcI+1)%DECKS[fcD].cards.length;
+  if(!S.fc_progress[fcD])S.fc_progress[fcD]={known:0,unknown:0};
+  if(knew)S.fc_progress[fcD].known++;else S.fc_progress[fcD].unknown++;
+  if(knew)S.cards=Math.min(S.cards+1,9999);
+  sv();loadDeckProgress();uFCS();rFC();rDots();
+}
+function uFCS(){
+  const t=DECKS[fcD].cards.length,d=fcK+fcU;
+  document.getElementById('fck').textContent=fcK;
+  document.getElementById('fcu').textContent=fcU;
+  document.getElementById('fcl').textContent=d>=t?'✓':t-d;
+  if(d>=t&&fcK>0){ addActivity('🃏',`Завершена колода "${DECKS[fcD].n}": ${fcK} верно из ${t}`); sv(); }
+}
+function rDots(){
+  const el=document.getElementById('fcdots');el.innerHTML='';
+  DECKS[fcD].cards.forEach((_,i)=>{const d=document.createElement('div');d.style.cssText=`width:6px;height:6px;border-radius:50%;background:${i===fcI?'var(--tx)':'var(--brd)'}`;el.appendChild(d);});
+}
+
+// ══════════════════════════════════════════════
+//  ANALYTICS
+// ══════════════════════════════════════════════
+function updateAnalytics(){
+  // ENT big stat
+  const total=ENT_BANK.length;
+  const correct=Object.values(S.ent_answers).filter(a=>a.correct).length;
+  const done=Object.keys(S.ent_answers).length;
+  const pct=done>0?Math.round(correct/total*100):0;
+  const el=document.getElementById('ent-pct-big');
+  if(el)el.textContent=pct+'%';
+  const det=document.getElementById('ent-detail');
+  if(det)det.textContent=`${correct} верно из ${total} вопросов`;
+  const pb=document.getElementById('ent-prog-bar');
+  if(pb)pb.style.width=pct+'%';
+
+  // Module results
+  const tres=document.getElementById('tres');
+  if(tres){
+    tres.innerHTML=Object.keys(MODS).map(id=>{
+      const sc=S.mod_scores[id];
+      const col=sc===undefined?'var(--dim)':sc>=80?'var(--chem)':sc>=60?'var(--gold)':'var(--red)';
+      return `<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--mt);margin-bottom:3px"><span>${MODS[id].title}</span><span style="color:${col};font-weight:700">${sc!==undefined?sc+'%':'—'}</span></div><div style="height:3px;border-radius:99px;background:var(--brd)"><div style="width:${sc||0}%;height:100%;background:${col};border-radius:99px"></div></div></div>`;
+    }).join('');
+  }
+
+  // Weak/Strong topics
+  const topicStats = {};
+  ENT_BANK.forEach(q=>{
+    if(!topicStats[q.topic])topicStats[q.topic]={correct:0,total:0};
+    topicStats[q.topic].total++;
+    if(S.ent_answers[q.id]?.correct)topicStats[q.topic].correct++;
+  });
+  const topicsArr=Object.entries(topicStats).filter(([_,v])=>v.total>0).sort((a,b)=>{
+    const pa=S.ent_answers[ENT_BANK.find(q=>q.topic===a[0])?.id]?a[1].correct/a[1].total:0;
+    const pb=S.ent_answers[ENT_BANK.find(q=>q.topic===b[0])?.id]?b[1].correct/b[1].total:0;
+    return pa-pb;
+  });
+
+  const weak=document.getElementById('weak-topics');
+  if(weak){
+    const weakItems=topicsArr.slice(0,4);
+    weak.innerHTML=weakItems.map(([t,v])=>{
+      const done2=Object.keys(S.ent_answers).filter(id=>ENT_BANK.find(q=>q.id===id&&q.topic===t)).length;
+      if(!done2)return `<div style="font-size:11.5px;color:var(--mt);padding:6px 0;border-bottom:1px solid var(--brd)">${t} — <em style="color:var(--dim)">не пройдено</em></div>`;
+      const pct2=Math.round(v.correct/v.total*100);
+      const col2=pct2>=80?'var(--chem)':pct2>=50?'var(--gold)':'var(--red)';
+      return `<div class="weak-item"><div style="flex:1"><div style="font-size:11.5px;font-weight:600">${t}</div><div class="weak-bar"><div class="weak-fill" style="width:${pct2}%;background:${col2}"></div></div></div><span style="font-size:11px;font-weight:800;color:${col2};margin-left:8px">${pct2}%</span></div>`;
+    }).join('');
+  }
+
+  const strong=document.getElementById('strong-topics');
+  if(strong){
+    const strongItems=[...topicsArr].reverse().slice(0,4);
+    strong.innerHTML=strongItems.map(([t,v])=>{
+      const done2=Object.keys(S.ent_answers).filter(id=>ENT_BANK.find(q=>q.id===id&&q.topic===t)).length;
+      if(!done2)return '';
+      const pct2=Math.round(v.correct/v.total*100);
+      return `<div class="weak-item"><div style="flex:1"><div style="font-size:11.5px;font-weight:600">${t}</div><div class="weak-bar"><div class="weak-fill" style="width:${pct2}%;background:var(--chem)"></div></div></div><span style="font-size:11px;font-weight:800;color:var(--chem);margin-left:8px">${pct2}%</span></div>`;
+    }).filter(Boolean).join('') || '<div style="font-size:11.5px;color:var(--mt);padding:8px 0">Пройди задания ЕНТ — анализ появится здесь</div>';
+  }
+
+  // Error stats
+  const errSt=document.getElementById('err-stats');
+  if(errSt){
+    const byTopic={};
+    S.errors.forEach(e=>{ byTopic[e.topic]=(byTopic[e.topic]||0)+1; });
+    const sorted=Object.entries(byTopic).sort((a,b)=>b[1]-a[1]);
+    errSt.innerHTML=sorted.length===0?'<div style="font-size:11.5px;color:var(--mt)">Ошибок нет 🎉</div>':
+      sorted.slice(0,6).map(([t,n])=>`<div style="display:flex;justify-content:space-between;font-size:11px;padding:5px 0;border-bottom:1px solid var(--brd)"><span style="color:var(--mt)">${t}</span><span style="font-weight:800;color:var(--red)">${n}</span></div>`).join('');
+  }
+
+  // AI analysis
+  buildAIAnalysis(correct, done, pct);
+}
+
+function buildAIAnalysis(correct,done,pct){
+  const el=document.getElementById('ai-analysis');
+  if(!el)return;
+  const errCount=S.errors.length;
+  const mPassed=Object.values(S.mod_scores).filter(s=>s>=60).length;
+  const weakTopics=[...new Set(S.errors.map(e=>e.topic))].slice(0,3);
+
+  let text=`📊 <strong>Сводка:</strong> Ты решил ${done} вопросов ЕНТ (${pct}% верно), прошёл ${mPassed} из ${Object.keys(MODS).length} модулей, набрал ${errCount} ошибок.<br><br>`;
+
+  if(errCount===0&&done===0){
+    text+='🚀 <strong>Время начинать!</strong> Открой страницу "Задания ЕНТ" и реши первые задания — тогда здесь появится твой персональный анализ.';
+  } else if(pct>=80){
+    text+=`🏆 <strong>Отличный результат!</strong> ${pct}% верных ответов — выше среднего. Сосредоточься на оставшихся ${ENT_BANK.length-done} вопросах и проработай ловушки.`;
+  } else if(weakTopics.length>0){
+    text+=`🎯 <strong>Главные проблемы:</strong> ${weakTopics.join(', ')}. Рекомендую:<br>1. Открыть "Мои ошибки" и повторить ${errCount} вопрос(-а)<br>2. Пройти соответствующие модули<br>3. Снова решить задания ЕНТ по этим темам`;
+  } else {
+    text+=`💪 Продолжай в том же духе! Решай больше заданий ЕНТ для точного анализа.`;
+  }
+  el.innerHTML=text;
+}
+
+// ══════════════════════════════════════════════
+//  SCHEDULE
+// ══════════════════════════════════════════════
+const SCHED=[
+  {d:'Понедельник',dt:'Сегодня',items:[{t:'16:00',n:'Периодическая таблица — повторение',dur:'45 мин',s:'active',c:'var(--chem)',sid:'m1-1'},{t:'17:00',n:'Карточки: Химия (20 штук)',dur:'20 мин',s:'active',c:'var(--chem)',sid:'m1-2'},{t:'18:00',n:'ЕНТ: 5 вопросов по химии',dur:'30 мин',s:'pending',c:'var(--gold)',sid:'m1-3'}]},
+  {d:'Вторник',dt:'Завтра',items:[{t:'16:00',n:'Органические соединения — теория',dur:'50 мин',s:'pending',c:'var(--chem)',sid:'m2-1'},{t:'17:30',n:'Репликация ДНК — новая тема',dur:'40 мин',s:'pending',c:'var(--bio)',sid:'m2-2'}]},
+  {d:'Среда',dt:'',items:[{t:'16:00',n:'Разбор ошибок из ЕНТ',dur:'40 мин',s:'pending',c:'var(--red)',sid:'m3-1'},{t:'17:00',n:'Генетика — введение',dur:'50 мин',s:'pending',c:'var(--bio)',sid:'m3-2'}]},
+  {d:'Четверг',dt:'',items:[{t:'16:00',n:'ЕНТ: 10 вопросов с ловушками',dur:'45 мин',s:'pending',c:'var(--gold)',sid:'m4-1'},{t:'17:30',n:'Карточки: ЕНТ-микс',dur:'25 мин',s:'pending',c:'var(--gold)',sid:'m4-2'}]},
+  {d:'Пятница',dt:'',items:[{t:'16:00',n:'Кислоты и основания — pH, индикаторы',dur:'45 мин',s:'pending',c:'var(--chem)',sid:'m5-1'},{t:'17:30',n:'Фотосинтез — разбор ловушек',dur:'30 мин',s:'pending',c:'var(--bio)',sid:'m5-2'}]},
+  {d:'Суббота',dt:'',items:[{t:'11:00',n:'Полный тест: все темы',dur:'60 мин',s:'pending',c:'var(--gold)',sid:'m6-1'},{t:'13:00',n:'Разбор ошибок с AI',dur:'30 мин',s:'pending',c:'var(--bio)',sid:'m6-2'}]},
+  {d:'Воскресенье',dt:'Отдых',items:[{t:'19:00',n:'10 карточек — лёгкое повторение',dur:'15 мин',s:'rest',c:'var(--mt)',sid:'m7-1'}]},
+];
+function buildSched(){
+  const g=document.getElementById('sched');if(!g)return;g.innerHTML='';
+  SCHED.forEach((day,di)=>{
+    const min=day.items.reduce((s,i)=>s+parseInt(i.dur),0);
+    const doneCount=day.items.filter(i=>S.sched_done[i.sid]).length;
+    const el=document.createElement('div');el.className='sched';
+    el.innerHTML=`<div class="sday"><div class="sdayhd" onclick="togD(${di})">
+      <div><div style="font-size:12.5px;font-weight:700">${day.d}${day.dt?` — <span style="color:var(--chem);font-size:10.5px">${day.dt}</span>`:''}</div>
+      <div style="font-size:10.5px;color:var(--mt)">${day.items.length} задан. · ${min} мин${doneCount>0?` · <span style="color:var(--chem)">${doneCount} выполнено</span>`:''}</div></div>
+      <span id="sa${di}" style="transition:transform .18s;display:inline-block;color:var(--mt);${di!==0?'transform:rotate(-90deg)':''}">▾</span></div>
+      <div class="sdbody" id="sb${di}" style="${di!==0?'display:none':''}">
+        ${day.items.map(item=>`
+          <div class="sitem${S.sched_done[item.sid]?' done':''}" onclick="toggleSchedItem('${item.sid}',this)" style="cursor:pointer" title="Кликни для отметки">
+            <div class="stime">${item.t}</div>
+            <div class="sdot" style="background:${S.sched_done[item.sid]?'var(--chem)':item.c}"></div>
+            <div class="stit">${item.n}</div>
+            <div class="sdur">${item.dur}</div>
+            <div class="sstat" style="background:${S.sched_done[item.sid]?'var(--chem-d)':item.s==='active'?'var(--chem-d)':item.s==='rest'?'rgba(255,255,255,.04)':'var(--brd)'};color:${S.sched_done[item.sid]?'var(--chem)':item.s==='active'?'var(--chem)':item.s==='rest'?'var(--dim)':'var(--dim)'};border:1px solid ${S.sched_done[item.sid]?'rgba(16,185,129,.2)':item.s==='active'?'rgba(16,185,129,.2)':'var(--brd)'}">
+              ${S.sched_done[item.sid]?'✓ Готово':item.s==='active'?'Сейчас':item.s==='rest'?'😴':'Ожидает'}
+            </div>
+          </div>`).join('')}
+      </div></div>`;
+    g.appendChild(el);
+  });
+}
+function toggleSchedItem(sid, el){
+  S.sched_done[sid] = !S.sched_done[sid];
+  if(S.sched_done[sid]){ S.hours=+(S.hours+0.4).toFixed(1); notify('✅ Задание выполнено!'); }
+  sv(); buildSched();
+}
+function togD(di){
+  const b=document.getElementById('sb'+di),a=document.getElementById('sa'+di);
+  const o=b.style.display!=='none';b.style.display=o?'none':'flex';a.style.transform=o?'rotate(-90deg)':'';
+}
+
+// ══════════════════════════════════════════════
+//  PROFILE
+// ══════════════════════════════════════════════
+function liveNamePreview(val){
+  // Preview name changes in real-time across UI without saving yet
+  if(!val.trim()) return;
+  const shortName = val.trim().split(' ')[0];
+  const wn = document.getElementById('welcome-name');
+  if(wn) wn.textContent = `👋 Привет, ${shortName}!`;
+}
+
+function updateProfile(){
+  const badges=[];
+  if(S.streak>=7) badges.push({t:`🔥 ${S.streak}-дн. серия`,bg:'var(--gold-d)',c:'var(--gold)',bc:'rgba(245,158,11,.3)'});
+  if(Object.values(S.mod_scores).filter(s=>s>=80).length>=2) badges.push({t:'🧪 Химик',bg:'var(--chem-d)',c:'var(--chem)',bc:'rgba(16,185,129,.3)'});
+  if(Object.values(S.mod_scores).some(s=>s===100)) badges.push({t:'🏆 Мастер',bg:'var(--gold-d)',c:'var(--gold)',bc:'rgba(245,158,11,.3)'});
+  if(S.cards>=50) badges.push({t:`🃏 ${S.cards} карт.`,bg:'var(--blue-d)',c:'var(--blue)',bc:'rgba(59,130,246,.3)'});
+  if(S.errors.length===0&&Object.keys(S.ent_answers).length>5) badges.push({t:'✨ Без ошибок',bg:'var(--chem-d)',c:'var(--chem)',bc:'rgba(16,185,129,.3)'});
+  if(badges.length===0) badges.push({t:'🌱 Новичок',bg:'var(--bio-d)',c:'var(--bio)',bc:'rgba(139,92,246,.3)'});
+  const bd=document.getElementById('prof-badges');
+  if(bd) bd.innerHTML=badges.map(b=>`<div class="pbadge" style="background:${b.bg};color:${b.c};border-color:${b.bc}">${b.t}</div>`).join('');
+  const pm=document.getElementById('prof-mods');if(pm)pm.textContent=Object.values(S.mod_scores).filter(s=>s>=60).length+'/'+Object.keys(MODS).length;
+  const pe=document.getElementById('prof-ent');if(pe)pe.textContent=Object.keys(S.ent_answers).length;
+  const perr=document.getElementById('prof-err');if(perr)perr.textContent=S.errors.length;
+  const pst=document.getElementById('prof-streak');if(pst)pst.textContent=S.streak+' 🔥';
+  applyProfileToUI();
+}
+function saveProfile(){
+  const name = document.getElementById('pname')?.value.trim();
+  const grade = document.getElementById('pgrade')?.value;
+  const goal = document.getElementById('pgoal')?.value;
+  const city = document.getElementById('pcity')?.value.trim();
+  if(name) S.profile_name = name;
+  if(grade) S.profile_grade = grade;
+  if(goal) S.profile_goal = goal;
+  if(city !== undefined) S.profile_city = city;
+  sv();
+  applyProfileToUI();
+  notify('✅ Профиль сохранён!');
+}
+
+function applyProfileToUI(){
+  const name  = S.profile_name  || 'Алиш Рахимов';
+  const grade = S.profile_grade || '9 класс';
+  const city  = S.profile_city  || 'Алматы';
+  const goal  = S.profile_goal  || '90+ баллов';
+  const parts = name.trim().split(' ');
+  const initials = parts.map(w=>w[0]||'').join('').slice(0,2).toUpperCase() || 'А';
+  const shortName = parts[0];
+  const emailSlug = name.toLowerCase().replace(/\s+/g,'.').replace(/[^a-zа-яё.]/gi,'');
+
+  // Sidebar
+  const sbName  = document.getElementById('sb-name');
+  const sbGrade = document.getElementById('sb-grade');
+  const sbAv    = document.getElementById('sb-av');
+  if(sbName)  sbName.textContent  = name;
+  if(sbGrade) sbGrade.textContent = `${grade} · ${city}`;
+  if(sbAv)    sbAv.textContent    = initials[0];
+
+  // Profile header
+  const phn = document.getElementById('prof-header-name');
+  const phg = document.getElementById('prof-header-grade');
+  const phe = document.getElementById('prof-header-email');
+  const pav = document.getElementById('prof-av');
+  if(phn) phn.textContent = name;
+  if(phg) phg.textContent = `${grade} · ${city} · Школа №15`;
+  if(phe) phe.textContent = `${emailSlug}@school15.kz`;
+  if(pav) pav.textContent = initials[0];
+
+  // Welcome greeting
+  const wn = document.getElementById('welcome-name');
+  if(wn) wn.textContent = `👋 Привет, ${shortName}!`;
+
+  // Profile form fields — restore saved values
+  const pn = document.getElementById('pname');
+  const pg = document.getElementById('pgrade');
+  const pc = document.getElementById('pcity');
+  const pg2= document.getElementById('pgoal');
+  if(pn && !pn._focused) pn.value = name;
+  if(pg) pg.value = grade;
+  if(pc) pc.value = city;
+  if(pg2) pg2.value = goal;
+}
+
+function resetAll(){
+  if(!confirm('Сбросить ВЕСЬ прогресс? Это нельзя отменить!'))return;
+  localStorage.removeItem('chemio3');
+  location.reload();
+}
+
+// ══════════════════════════════════════════════
+//  CHARTS
+// ══════════════════════════════════════════════
+function buildBars(){
+  const days=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'],v=[32,75,55,90,65,38,70];
+  const c=document.getElementById('bars'),l=document.getElementById('blbls');
+  if(!c)return;
+  days.forEach((d,i)=>{
+    const b=document.createElement('div');b.className='bar';
+    b.style.cssText=`height:${v[i]/90*100}%;background:${i===6?'var(--chem)':'var(--brd2)'};opacity:${i===6?1:.7}`;
+    c.appendChild(b);
+    const lb=document.createElement('div');lb.className='barlbl';lb.textContent=d;l.appendChild(lb);
+  });
+}
+function buildHM(){
+  const hm=document.getElementById('hm');if(!hm)return;
+  [0,0,1,2,1,0,0,1,2,3,2,1,0,0,0,1,2,4,3,2,1,1,2,3,4,4,3,2].forEach(l=>{
+    const c=document.createElement('div');c.className='hmc'+(l>0?' l'+Math.min(l,4):'');hm.appendChild(c);
+  });
+}
+
+// ══════════════════════════════════════════════
+//  AI CHAT (Groq)
+// ══════════════════════════════════════════════
+let GROQ_KEY = localStorage.getItem('chemio_groq_key') || '';
+
+function clearKey(){
+  GROQ_KEY = '';
+  localStorage.removeItem('chemio_groq_key');
+  document.getElementById('key-row').style.display = 'flex';
+  const stat = document.getElementById('cp-stat');
+  if(stat){ stat.innerHTML = '⚠️ Нужен API ключ'; stat.style.color='var(--gold)'; }
+  updateKeyStatus();
+  notify('🗑 Ключ удалён из браузера');
+}
+
+function saveKeyFromProfile(){
+  const val = document.getElementById('prof-key-inp')?.value.trim();
+  if(!val || !val.startsWith('gsk_')){ notify('❌ Ключ должен начинаться с gsk_'); return; }
+  GROQ_KEY = val;
+  localStorage.setItem('chemio_groq_key', GROQ_KEY);
+  document.getElementById('prof-key-inp').value = '';
+  document.getElementById('key-row').style.display = 'none';
+  const stat = document.getElementById('cp-stat');
+  if(stat){ stat.innerHTML = '<div class="cpsdot"></div>Подключено · llama-3.3-70b'; stat.style.color='var(--chem)'; }
+  updateKeyStatus();
+  notify('✅ Ключ сохранён!');
+}
+
+function updateKeyStatus(){
+  const el = document.getElementById('key-status');
+  if(!el) return;
+  if(GROQ_KEY){
+    el.textContent = '✓ Ключ сохранён';
+    el.style.color = 'var(--chem)';
+  } else {
+    el.textContent = '✗ Не задан';
+    el.style.color = 'var(--red)';
+  }
+}
+
+function initChatKey(){
+  if(!GROQ_KEY){
+    document.getElementById('key-row').style.display = 'flex';
+    const stat = document.getElementById('cp-stat');
+    if(stat){ stat.innerHTML = '⚠️ Нужен API ключ → введи ниже'; stat.style.color='var(--gold)'; }
+  }
+  updateKeyStatus();
+}
+let CH=[],CB=false;
+function sp(t){ document.getElementById('cinp').value=t; sm(); }
+function ck(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sm();} }
+
+async function sm(){
+  if(CB)return;
+  const inp=document.getElementById('cinp'),t=inp.value.trim();
+  if(!t)return;
+
+  if(!GROQ_KEY){
+    amsg('ai','🔑 **Нужен Groq API ключ**\n\nВведи свой ключ в поле ниже — он сохранится только в твоём браузере и никуда не отправляется.\n\nПолучить бесплатно: **console.groq.com** → API Keys → Create Key');
+    document.getElementById('key-row').style.display='flex';
+    document.getElementById('groq-key-inp').focus();
+    return;
+  }
+  inp.value='';CB=true;document.getElementById('csnd').disabled=true;
+  amsg('u',t);CH.push({role:'user',content:t});
+  const tid=ath();
+  // Build context from user's data
+  const errTopics=[...new Set(S.errors.map(e=>e.topic))].slice(0,5).join(', ')||'нет';
+  const doneEnt=Object.keys(S.ent_answers).length;
+  const correctEnt=Object.values(S.ent_answers).filter(a=>a.correct).length;
+  const modsDone=Object.entries(S.mod_scores).map(([k,v])=>`${MODS[k]?.title}: ${v}%`).join(', ')||'не пройдены';
+  const sysCtx=`Ты — Chemio AI Study Buddy. Ты умный репетитор по химии и биологии для казахстанских школьников 7–11 класс. Отвечай ТОЛЬКО на русском. Будь дружелюбным и конкретным.
+
+ДАННЫЕ ПОЛЬЗОВАТЕЛЯ (используй для персонализации):
+- Серия дней: ${S.streak}
+- Вопросов ЕНТ решено: ${doneEnt}, верно: ${correctEnt}
+- Ошибки по темам: ${errTopics}
+- Пройденные модули: ${modsDone}
+- Накопленных ошибок: ${S.errors.length}
+
+Форматируй: **жирный** для ключевых слов, \`code\` для формул, дефис для списков. До 300 слов. Если вопрос не по теме — верни к химии/биологии.`;
+
+  try{
+    const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+GROQ_KEY},
+      body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1000,
+        messages:[{role:'system',content:sysCtx},...CH.slice(-10)]})
+    });
+    rel(tid);
+    if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error?.message||'Ошибка '+r.status);}
+    const data=await r.json();
+    const reply=data.choices[0].message.content;
+    CH.push({role:'assistant',content:reply});
+    amsg('ai',reply);
+  }catch(err){
+    rel(tid);
+    amsg('ai',`⚠️ **Ошибка:** ${err.message}`);
+  }
+  CB=false;document.getElementById('csnd').disabled=false;
+}
+function amsg(role,text){
+  const msgs=document.getElementById('msgs');
+  const div=document.createElement('div');div.className='msg'+(role==='u'?' u':'');
+  const content=role==='ai'?fmd(text):esc(text);
+  div.innerHTML=`<div class="mav ${role==='ai'?'ai':'us'}">${role==='ai'?'🤖':'А'}</div><div class="bub ${role==='ai'?'ai':'user'}"${role==='ai'?' style="opacity:0;transition:opacity .3s"':''}>${content}</div>`;
+  msgs.appendChild(div);
+  if(role==='ai')requestAnimationFrame(()=>{div.querySelector('.bub').style.opacity='1';});
+  msgs.scrollTop=msgs.scrollHeight;
+}
+function ath(){
+  const msgs=document.getElementById('msgs'),id='t'+Date.now();
+  const div=document.createElement('div');div.id=id;div.className='msg';
+  div.innerHTML=`<div class="mav ai">🤖</div><div class="bub ai"><div class="aith"><div class="aitd"></div><div class="aitd"></div><div class="aitd"></div><span style="font-size:10.5px;margin-left:3px">Думаю...</span></div></div>`;
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;return id;
+}
+function rel(id){const e=document.getElementById(id);if(e)e.remove();}
+function fmd(t){
+  return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/^[-•] (.+)$/gm,'<li style="margin-left:14px;margin-bottom:2px">$1</li>')
+    .replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ══════════════════════════════════════════════
+//  NOTIFY
+// ══════════════════════════════════════════════
+function notify(txt){
+  const n=document.createElement('div');n.className='notify';n.textContent=txt;
+  document.body.appendChild(n);setTimeout(()=>n.remove(),2500);
+}
+</script>
+</body>
+</html>
